@@ -1,0 +1,45 @@
+.existing-factions{
+    display: flex;
+}
+
+.faction-wrapper {
+    width: 220px;
+    border: solid;
+    margin: 10px;
+}
+
+.faction-wrapper .faction-name {
+    margin: 10px 0 0 10px;
+    overflow: hidden;
+}
+
+.faction-wrapper .faction-button {
+    margin: 5px 0 0 20px;
+    padding: 2px;
+}
+
+.faction-ship {
+    width: 200px;
+    padding: 5px 0 5px 10px;
+}
+
+.faction-ship .ship-name {
+    padding: 0 0 5px 5px;
+    margin: 0;
+}
+
+.faction-ship-prop {
+    padding: 1px 15px;
+    width: 180px;
+    display: flex;
+}
+
+.faction-ship-prop-name {
+    width: 160px;
+}
+
+.faction-ship-prop-value {
+    width: 24px;
+    text-align: right;
+}
+

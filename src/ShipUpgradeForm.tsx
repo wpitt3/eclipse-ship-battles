@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './ShipUpgradeForm.css';
-
-
+import {toTitle} from "./Formatter";
 
 interface StatContainerProps {
     value: number;
@@ -26,19 +25,19 @@ export interface ShipProps {
     computers: number;
     shields: number;
     hull: number;
-    cannon1: number;
-    cannon2: number;
-    cannon3: number;
-    cannon4: number;
-    missile1: number;
-    missile2: number;
+    ion_cannon: number;
+    plasma_cannon: number;
+    soliton_cannon: number;
+    antimatter_cannon: number;
+    flux_missile: number;
+    plasma_missile: number;
 }
 
 function StatContainer({ value, statName, onChange, min = 0, max = 10 }: StatContainerProps) {
     return (
         <div className="stat-container">
             <div className="stat-row">
-                <h4>{statName.charAt(0).toUpperCase() + statName.slice(1)}:</h4>
+                <h4>{toTitle(statName)}:</h4>
                 {value > min && <button className="minus-button" onClick={() => onChange(statName, - 1)}>-</button>}
                 <span className="stat-value">{value}</span>
                 {value < max && <button className="plus-button" onClick={() => onChange(statName, 1)}>+</button>}
@@ -48,9 +47,9 @@ function StatContainer({ value, statName, onChange, min = 0, max = 10 }: StatCon
 }
 
 function ShipUpgradeForm({ saveShip, initShip }: ShipUpgradeFormProps) {
-    const [ship, setShip] = useState<ShipProps>(initShip.props);
+    const ship = initShip.props;
     const handleStatChange = (statName: string, value: number) => {
-        setShip({ ...ship, [statName]: ({...ship}[statName] || 0) + value });
+        saveShip({ ...ship, [statName]: ({...ship}[statName] || 0) + value })
     };
     return (
         <div className="ship-upgrade-form">
@@ -67,7 +66,6 @@ function ShipUpgradeForm({ saveShip, initShip }: ShipUpgradeFormProps) {
                     />
                 ))}
             </div>
-            <button onClick={() => saveShip(ship)} >Save</button>
         </div>
     );
 }

@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
-import FactionForm from "./FactionForm";
+import {Ship} from "./ShipUpgradeForm";
+import FactionManagement from "./FactionManagement";
 
 function App() {
   return (
-    <FactionForm/>
+      <FactionManagement />
   );
 }
 

@@ -7,42 +7,26 @@ export interface Faction {
     ships: Record<string, Ship>,
 }
 
-function toShipData(props: Record<string, number>): ShipProps {
-    const shipDataKeys = ['initiative', 'computers', 'shields', 'hull', 'cannon1', 'cannon2', 'cannon3', 'cannon4', 'missile1', 'missile2']
-    const shipDataKeysAsMap = shipDataKeys.reduce((map, key) => {
-        map[key] = 0;
-        return map;
-    }, {} as Record<string, number>);
-    return {...shipDataKeysAsMap, ...props} as unknown as ShipProps;
+interface FactionParams {
+    saveFaction: (ship: Record<string, Ship>) => void;
+    faction: Faction;
 }
 
-function FactionForm() {
-    const factionName = 'Ground'
-    const factionShips = {
-        interceptor: {name: 'Interceptor', props: toShipData({ initiative:3, 'cannon 1': 1 })},
-        cruiser: {name: 'Cruiser', props: toShipData({ initiative:2, computers:1, hull: 1, 'cannon 1': 1 })},
-        dreadnought: {name: 'Dreadnought', props: toShipData({ initiative:1, computers:1, hull: 2, 'cannon 1': 2 })},
-        starbase: {name: 'Starbase', props: toShipData({ initiative:4, computers:1, hull: 2, 'cannon 1': 1 })},
-    } as Record<string, Ship>
-
-    const [faction, setFaction] = useState({
-        interceptor: factionShips.interceptor,
-        cruiser: factionShips.cruiser,
-        dreadnought: factionShips.dreadnought,
-        starbase: factionShips.starbase,
-    });
+function FactionForm({saveFaction, faction}: FactionParams) {
+    const [newFaction, setFaction] = useState(faction.ships);
 
     const saveShip = (shipName: string, ship: ShipProps) => {
-        setFaction({ ...faction, [shipName]: ship });
+        setFaction({ ...newFaction, [shipName]: {name: newFaction[shipName]?.name || '', props: ship }});
     };
-
     return (
         <div>
-            <h1>{factionName}</h1>
-            <ShipUpgradeForm saveShip={(ship) => saveShip('interceptor', ship)} initShip={faction.interceptor} />
-            <ShipUpgradeForm saveShip={(ship) => saveShip('cruiser', ship)} initShip={faction.cruiser} />
-            <ShipUpgradeForm saveShip={(ship) => saveShip('dreadnought', ship)} initShip={faction.dreadnought} />
-            <ShipUpgradeForm saveShip={(ship) => saveShip('starbase', ship)} initShip={faction.starbase} />
+            <h1>{faction.name}</h1>
+            <button onClick={() => saveFaction(newFaction)} >Save</button>
+            <div className="faction-upgrade-form">
+                {Object.keys(faction.ships).map((shipName, index) => (
+                    <ShipUpgradeForm key={index} saveShip={(ship) => saveShip(shipName, ship)} initShip={newFaction[shipName] || newFaction.interceptor} />
+                ))}
+            </div>
         </div>
     );
 }
