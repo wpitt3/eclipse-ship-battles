@@ -1,0 +1,59 @@
+.ship-upgrade-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 300px;
+    border: solid;
+}
+
+.ship-upgrade-form h2 {
+   margin: 5px;
+}
+
+.stat-containers-wrapper {
+    width: 260px;
+    padding: 0 20px;
+    padding-bottom: 30px;
+}
+
+.stat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    margin-top: 17px;
+}
+
+.stat-row {
+    display: flex;
+}
+
+.stat-row h4 {
+    margin: 5px;
+    width: 100px;
+}
+
+button {
+    padding: 1px 6px;
+    font-size: 14px;
+}
+
+.stat-row .minus-button {
+    position: absolute;
+    margin-left: 120px;
+    margin-top: 3px;
+}
+
+.stat-row .stat-value {
+    position: absolute;
+    margin-left: 150px;
+    margin-top: 3px;
+    width: 40px;
+    text-align: center;
+}
+
+.stat-row .plus-button {
+    position: absolute;
+    margin-left: 200px;
+    margin-top: 3px;
+}
