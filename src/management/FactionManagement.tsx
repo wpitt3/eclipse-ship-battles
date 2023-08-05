@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './ShipUpgradeForm.css';
-import {Ship, ShipProps} from "./ShipUpgradeForm";
+import {Ship, ShipBuilder, ShipProps} from "../ShipBuilder";
 import FactionForm, {Faction} from "./FactionForm";
-import {toTitle} from "./Formatter";
+import {toTitle} from "../Formatter";
 import './FactionManagement.css';
+import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
 
 function toShipData(props: Record<string, number>): ShipProps {
     const shipDataKeys = ['initiative', 'computers', 'shields', 'hull', 'ion_cannon', 'plasma_cannon', 'soliton_cannon', 'antimatter_cannon', 'flux_missile', 'plasma_missile']
@@ -28,14 +29,16 @@ function createFaction(name: string): Faction {
 
 function FactionManagement() {
     const [name, setName] = useState('');
-    const [factions, setFactions] = useState<Array<Faction>>([]);
+    const [unused, setUnused] = useState(false);
+    const factionManager = new TypedLocalStorage<Faction>({name: '', ships: {}})
+    const namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
     const [editing, setEditing] = useState<number>(-1);
-
     const handleCreateFaction = () => {
-        if (name !== '') {
+        if (name !== '' && !namesManager.get().includes(name)) {
             const newFaction = createFaction(name)
-            const factionId = factions.length
-            setFactions([...factions, newFaction])
+            const factionId = namesManager.get().length
+            factionManager.set(name, newFaction);
+            namesManager.set([...namesManager.get(), name]);
             setEditing(factionId)
             setName('');
         }
@@ -46,15 +49,19 @@ function FactionManagement() {
     };
 
     const handleDeleteFaction = (index: number) => {
-        const newFactions = [...factions]
-        newFactions.splice(index, 1)
-        setFactions(newFactions);
+        const newFactionNames = [...namesManager.get()]
+        const factionName = namesManager.get()[index];
+        newFactionNames.splice(index, 1)
+        factionManager.remove(factionName);
+        namesManager.set(newFactionNames);
+        setUnused(!unused);
     };
 
     const saveFaction = (ships: Record<string, Ship>) => {
-        const newFactions = [...factions]
-        newFactions[editing].ships = ships;
-        setFactions(newFactions)
+        const factionName = namesManager.get()[editing];
+        const faction = factionManager.get(factionName)
+        faction.ships = ships;
+        factionManager.set(namesManager.get()[editing], faction);
         setEditing(-1)
     };
 
@@ -72,13 +79,13 @@ function FactionManagement() {
                     <button onClick={handleCreateFaction}>Create</button>
                 </div>
                 <div className="existing-factions">
-                    {factions.map((faction, index) => (
+                    {namesManager.get().map((factionName, index) => (
                         <div key={index} className="faction-wrapper">
-                            <div className="faction-name">{faction.name}</div>
+                            <div className="faction-name">{factionManager.get(factionName).name}</div>
                             <button className="faction-button" onClick={() => handleEditFaction(index)}>Edit</button>
                             <button className="faction-button" onClick={() => handleDeleteFaction(index)}>Delete</button>
-                            {Object.keys(faction.ships).map((shipName, index) => {
-                                const ship = faction.ships[shipName];
+                            {Object.keys(factionManager.get(factionName).ships).map((shipName, index) => {
+                                const ship = factionManager.get(factionName).ships[shipName];
                                 return <div key={index} className="faction-ship">
                                     <div className="ship-name">{ship.name}</div>
                                     {Object.keys(ship.props).map((propName, index) => {
@@ -95,7 +102,7 @@ function FactionManagement() {
                     ))}
                 </div>
             </div>}
-            {editing === -1 || <FactionForm saveFaction={saveFaction} faction={factions[editing]}/>}
+            {editing === -1 || <FactionForm saveFaction={saveFaction} faction={factionManager.get(namesManager.get()[editing])}/>}
         </div>
     )
 }

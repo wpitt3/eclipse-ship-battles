@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Ship} from "./ShipUpgradeForm";
-import FactionManagement from "./FactionManagement";
+import FactionManagement from "./management/FactionManagement";
+import Nav from "./Nav";
+import BattleManage from "./battles/BattleManage";
 
 function App() {
+  const [page, setPage] = useState<string>('build');
   return (
-      <FactionManagement />
+      <div>
+        <Nav page={page} setPage={setPage}/>
+          {page !== 'build' || <FactionManagement />}
+          {page !== 'battle' || <BattleManage />}
+      </div>
   );
 }
 

@@ -1,22 +1,3 @@
-.ship-upgrade-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    width: 300px;
-    border: solid;
-    margin: 10px;
-}
-
-.ship-upgrade-form h2 {
-   margin: 5px;
-}
-
-.stat-containers-wrapper {
-    width: 260px;
-    padding: 0 10px;
-    padding-bottom: 30px;
-}
 
 .stat-container {
     display: flex;
