@@ -1,73 +1,42 @@
 import React, {useState} from 'react';
 import './ShipUpgradeForm.css';
-import {Ship, ShipProps} from "../ShipBuilder";
-import FactionForm, {Faction} from "./FactionForm";
+import {Ship} from "../ShipBuilder";
+import FactionForm from "./FactionForm";
 import {toTitle} from "../Formatter";
 import './FactionManagement.css';
-import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
-
-function toShipData(props: Record<string, number>): ShipProps {
-    const shipDataKeys = ['initiative', 'computers', 'shields', 'hull', 'ionCannon', 'plasmaCannon', 'solitonCannon', 'antimatterCannon', 'fluxMissile', 'plasmaMissile', "solitonMissile", "antimatterMissile"]
-    const shipDataKeysAsMap = shipDataKeys.reduce((map, key) => {
-        map[key] = 0;
-        return map;
-    }, {} as Record<string, number>);
-    return {...shipDataKeysAsMap, ...props} as unknown as ShipProps;
-}
-
-function createFaction(name: string): Faction {
-    return {
-        name: name,
-        ships: {
-        interceptor: {name: 'Interceptor', props: toShipData({initiative: 3, 'ionCannon': 1})},
-        cruiser: {name: 'Cruiser', props: toShipData({initiative: 2, computers: 1, hull: 1, 'ionCannon': 1})},
-        dreadnought: {name: 'Dreadnought', props: toShipData({initiative: 1, computers: 1, hull: 2, 'ionCannon': 2})},
-        starbase: {name: 'Starbase', props: toShipData({initiative: 4, computers: 1, hull: 2, 'ionCannon': 1})},
-    } as Record<string, Ship>
-    }
-}
+import {FactionManager} from "./FactionManager";
 
 function FactionManagement() {
     const [name, setName] = useState('');
     const [unused, setUnused] = useState(false);
-    const factionManager = new TypedLocalStorage<Faction>({name: '', ships: {}})
-    const namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
-    const [editing, setEditing] = useState<number>(-1);
+
+    const factionManager = new FactionManager();
+    const [editing, setEditing] = useState<string>('');
     const handleCreateFaction = () => {
-        if (name !== '' && !namesManager.get().includes(name)) {
-            const newFaction = createFaction(name)
-            const factionId = namesManager.get().length
-            factionManager.set(name, newFaction);
-            namesManager.set([...namesManager.get(), name]);
-            setEditing(factionId)
+        if (name !== '' && !factionManager.includes(name)) {
+            factionManager.create(name);
+            setEditing(name);
             setName('');
         }
     };
 
-    const handleEditFaction = (index: number) => {
-        setEditing(index);
+    const handleEditFaction = (factionName: string) => {
+        setEditing(factionName);
     };
 
-    const handleDeleteFaction = (index: number) => {
-        const newFactionNames = [...namesManager.get()]
-        const factionName = namesManager.get()[index];
-        newFactionNames.splice(index, 1)
-        factionManager.remove(factionName);
-        namesManager.set(newFactionNames);
+    const handleDeleteFaction = (factionName: string) => {
+        factionManager.remove(factionName)
         setUnused(!unused);
     };
 
     const saveFaction = (ships: Record<string, Ship>) => {
-        const factionName = namesManager.get()[editing];
-        const faction = factionManager.get(factionName)
-        faction.ships = ships;
-        factionManager.set(namesManager.get()[editing], faction);
-        setEditing(-1)
+        factionManager.setShips(editing, ships);
+        setEditing('')
     };
 
     return (
         <div className="factions-wrapper">
-            {editing !== -1 || <div className="view-factions">
+            {editing !== '' || <div className="view-factions">
                 <h2>Faction Management</h2>
                 <div className="create-faction">
                     <input
@@ -79,13 +48,14 @@ function FactionManagement() {
                     <button onClick={handleCreateFaction}>Create</button>
                 </div>
                 <div className="existing-factions">
-                    {namesManager.get().map((factionName, i) => (
-                        <div key={i} className="faction-wrapper">
-                            <div className="faction-name">{factionManager.get(factionName).name}</div>
-                            <button className="faction-button" onClick={() => handleEditFaction(i)}>Edit</button>
-                            <button className="faction-button" onClick={() => handleDeleteFaction(i)}>Delete</button>
-                            {Object.keys(factionManager.get(factionName).ships).map((shipName, ii) => {
-                                const ship = factionManager.get(factionName).ships[shipName];
+                    { factionManager.getNames().map((factionName, i) => {
+                        const faction = factionManager.get(factionName);
+                        return (<div key={i} className="faction-wrapper">
+                            <div className="faction-name">{faction.name}</div>
+                            { !factionManager.isEditable(faction.name) || <button className="faction-button" onClick={() => handleEditFaction(faction.name)}>Edit</button> }
+                            { !factionManager.isEditable(faction.name) || <button className="faction-button" onClick={() => handleDeleteFaction(faction.name)}>Delete</button> }
+                            {Object.keys(faction.ships).map((shipName, ii) => {
+                                const ship = faction.ships[shipName];
                                 return <div key={ii} className="faction-ship">
                                     <div className="ship-name">{ship.name}</div>
                                     {Object.keys(ship.props).map((propName, iii) => {
@@ -99,10 +69,11 @@ function FactionManagement() {
                                 </div>
                             })}
                         </div>
-                    ))}
+                        )}
+                    )}
                 </div>
             </div>}
-            {editing === -1 || <FactionForm saveFaction={saveFaction} faction={factionManager.get(namesManager.get()[editing])}/>}
+            {editing === '' || <FactionForm saveFaction={saveFaction} faction={factionManager.get(editing)}/>}
         </div>
     )
 }

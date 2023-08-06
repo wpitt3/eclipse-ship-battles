@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import {Ship} from "../ShipBuilder";
 import './BattleManage.css';
-import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
-import {Faction} from "../management/FactionForm";
 import Dropdown from "../components/Dropdown";
 import {ItemUpdater} from "../components/StatContainer";
 import {BattleEngine} from "./BattleEngine";
+import {FactionManager} from "../management/FactionManager";
 
 function BattleManage() {
-    const factionManager = new TypedLocalStorage<Faction>({name: '', ships: {}})
-    const namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
+    const factionManager = new FactionManager();
+    // const namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
     const shipsToFreq = (a: Record<string, Ship>) => Object.fromEntries(Object.keys(a).map((x) => { return [x, 0]})) as Record<string, number>
     const [attackerName, setAttackerName] = useState<string>('');
     const [defenderName, setDefenderName] = useState<string>('');
@@ -42,8 +41,8 @@ function BattleManage() {
         setWinRate(wins/battles);
     };
 
-    const attackerNames = namesManager.get().filter((name) => name !== defenderName);
-    const defenderNames = namesManager.get().filter((name) => name !== attackerName);
+    const attackerNames = factionManager.getNames().filter((name) => name !== defenderName);
+    const defenderNames = factionManager.getNames().filter((name) => name !== attackerName);
 
     const shipNameToMax = { interceptor: 8, cruiser: 4, dreadnought:2, starbase: 4 } as Record<string, number>;
 

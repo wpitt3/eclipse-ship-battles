@@ -1,12 +1,12 @@
 Todo.md
 
-github pages
-github workflows
+github workflows?
 use ItemUpdater for both
 react component based styles
 run battle engine async
 
 ShipBuilding/management
+ - include guardians and blah
  - ideal ship to fight opponent
  - Research cost of ship
  - alternative builder ( with ship parts )

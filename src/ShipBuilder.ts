@@ -50,8 +50,24 @@ export class ShipBuilder {
         return new ShipBuilder().withName("ancient").withInitiative(2).withIonCannon(2).withComputers(1).withHull(1)
     }
 
+    static ancient2(): ShipBuilder {
+        return new ShipBuilder().withName("ancient").withInitiative(2).withPlasmaCannon(1).withComputers(1).withHull(2)
+    }
+
     static guardian(): ShipBuilder {
         return new ShipBuilder().withName("guardian").withInitiative(3).withIonCannon(3).withComputers(2).withHull(2)
+    }
+
+    static guardian2(): ShipBuilder {
+        return new ShipBuilder().withName("guardian").withInitiative(1).withAntimatterCannon(1).withPlasmaMissile(2).withComputers(1).withHull(3)
+    }
+
+    static gcds(): ShipBuilder {
+        return new ShipBuilder().withName("gcds").withInitiative(0).withIonCannon(4).withComputers(2).withHull(7)
+    }
+
+    static gcds2(): ShipBuilder {
+        return new ShipBuilder().withName("gcds").withInitiative(2).withAntimatterCannon(1).withFluxMissile(4).withComputers(2).withHull(3)
     }
 
     static interceptor(): ShipBuilder {
@@ -63,7 +79,7 @@ export class ShipBuilder {
     }
 
     static dreadnought(): ShipBuilder {
-        return new ShipBuilder().withName("dreadnought").withInitiative(1).withIonCannon(1)
+        return new ShipBuilder().withName("dreadnought").withInitiative(1).withIonCannon(2).withHull(2).withComputers(1)
     }
 
     static starbase(): ShipBuilder {
