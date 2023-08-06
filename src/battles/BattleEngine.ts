@@ -21,6 +21,11 @@ interface Attack {
     strength: number
 }
 
+interface Winner {
+    winner: number,
+    remainingShips: number
+}
+
 export class BattleEngine {
     private readonly aShipDesigns: Record<string, Ship>;
 
@@ -31,7 +36,18 @@ export class BattleEngine {
         this.dShipDesigns = bShips;
     }
 
-    battle(aFreq: Record<string, number>, dFreq: Record<string, number>): number {
+    battles(aFreq: Record<string, number>, dFreq: Record<string, number>, battles: number): Record<number, number> {
+        const results: Record<number, number> = {};
+
+        [...Array(battles)].forEach(() => {
+            const result = this.battle(aFreq, dFreq);
+            results[result.winner * result.remainingShips] = (results[result.winner * result.remainingShips] || 0) + 1;
+        });
+
+        return results;
+    }
+
+    battle(aFreq: Record<string, number>, dFreq: Record<string, number>): Winner {
         let { missileAttacks, cannonAttacks, attackerShips, defenderShips } = this.initialiseShips(aFreq, dFreq);
 
         missileAttacks.forEach((attack) => {
@@ -99,13 +115,13 @@ export class BattleEngine {
         }
 
         if (attackerShips.length == 0) {
-            return 1;
+            return {winner: -1, remainingShips: defenderShips.length};
         }
 
         if (defenderShips.length == 0){
-            return -1;
+            return {winner: 1, remainingShips: attackerShips.length};
         }
-        return 0;
+        return {winner: 0, remainingShips: attackerShips.length + defenderShips.length};
     }
 
     initialiseShips(aFreq: Record<string, number>, dFreq: Record<string, number>): {

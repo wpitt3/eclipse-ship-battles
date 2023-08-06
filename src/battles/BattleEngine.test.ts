@@ -226,7 +226,7 @@ describe('BattleEngine', () => {
 
             const result = battleEngine.battle(frequency, frequency);
 
-            expect(result).toBe(1);
+            expect(result.winner).toBe(-1);
         });
 
         it('attacker wins an interceptor battle if 2 vs 1 and always hit', () => {
@@ -237,7 +237,7 @@ describe('BattleEngine', () => {
 
             const result = battleEngine.battle({ interceptor: 2}, { interceptor: 1});
 
-            expect(result).toBe(-1);
+            expect(result.winner).toBe(1);
         });
 
 
@@ -252,7 +252,7 @@ describe('BattleEngine', () => {
 
             const result = battleEngine.battle(aShips, bShips);
 
-            expect(result).toBe(1);
+            expect(result.winner).toBe(-1);
         });
 
     });

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Ship} from "../ShipBuilder";
 import './BattleManage.css';
 import Dropdown from "../components/Dropdown";
 import {ItemUpdater} from "../components/StatContainer";
@@ -14,6 +13,7 @@ function BattleManage() {
     const [attackerShips, setAttackerShips] = useState<Record<string, number>>({});
     const [defenderShips, setDefenderShips] = useState<Record<string, number>>({});
     const [winRate, setWinRate] = useState<number>(0);
+    const [remainingShips, setRemainingShips] = useState<[string, number][]>([]);
 
     const setAttacker = (name: string) => {
         setAttackerName(name);
@@ -25,19 +25,21 @@ function BattleManage() {
         setDefenderShips(shipsToFreq(Object.keys(factionManager.get(name).ships)));
     };
 
+    const asPercentage = (score: number) => {
+        return Math.round(score * 1000) / 10;
+    }
+
     const performBattle = () => {
         //async this
         const battleEngine = new BattleEngine(factionManager.get(attackerName).ships, factionManager.get(defenderName).ships);
         const battles = 10000;
-        let wins = 0;
-
-        [...Array(battles)].forEach(() => {
-            const result = battleEngine.battle(attackerShips, defenderShips);
-            if (result === -1) {
-                wins += 1;
-            }
-        });
-        setWinRate(wins/battles);
+        const results = battleEngine.battles(attackerShips, defenderShips, battles);
+        const winningBattles = Object.fromEntries(Object.entries(results)
+            .filter(([key]) => parseInt(key) > 0)
+            .map(([key, value]) => [key, value/ battles]));
+        const wins = Object.values(winningBattles).reduce((sum, value) => sum + value, 0);
+        setWinRate(wins);
+        setRemainingShips(Object.entries(winningBattles).sort().reverse())
     };
 
     const attackerNames = factionManager.getNames().filter((name) => name !== defenderName && !factionManager.defendingOnlyFactions().includes(name));
@@ -56,7 +58,16 @@ function BattleManage() {
                 <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
                 <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
                 <button onClick={() => performBattle()} >Battle</button>
-                <div >Winrate: {winRate}</div>
+                <br/>
+                <br/>
+                <div className='winrate'>Winrate: {asPercentage(winRate) + "%"}</div>
+                <div className='remainingShips'>
+                    <br/>
+                    <div>Ships: </div>
+                    { remainingShips.map(([x, y], i) =>
+                        <div key={i}> {"Remaining   " + x + "   " + asPercentage(y) + "%"} </div>
+                    )}
+                </div>
             </div>
             }
         </div>
