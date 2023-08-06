@@ -2,6 +2,7 @@
   "name": "eclipse-ship-battles",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://wpitt3.github.io/eclipse-ship-battles",
   "dependencies": {
     "@types/node": "^16.18.37",
     "@types/react": "^18.2.14",
@@ -16,6 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "gh-build": "gh-pages -d build",
     "lint": "eslint src --ext .ts --ext .tsx"
   },
   "browserslist": {
