@@ -23,6 +23,7 @@ interface Attack {
 
 export class BattleEngine {
     private readonly aShipDesigns: Record<string, Ship>;
+
     private readonly dShipDesigns: Record<string, Ship>;
 
     constructor(aShips: Record<string, Ship>, bShips: Record<string, Ship>) {
@@ -71,9 +72,9 @@ export class BattleEngine {
                 const ships = attack.team == TEAM.ATTACKER ? defenderShips : attackerShips;
                 const targets = this.chooseShipToAttack(attackHits, ships);
                 let kill = false
-                targets.forEach((target, i) => {
-                    if (attackHits[i].value + ships[target].props.shields >= 6) {
-                        ships[target].props.hull -= attackHits[i].strength;
+                targets.forEach((target, x) => {
+                    if (attackHits[x].value + ships[target].props.shields >= 6) {
+                        ships[target].props.hull -= attackHits[x].strength;
                         if (ships[target].props.hull < 0) {
                             kill = true;
                         }
@@ -113,7 +114,7 @@ export class BattleEngine {
         attackerShips: Ship[],
         defenderShips: Ship[]
     } {
-        const filterNonZero = (a: Record<string, number>) => Object.fromEntries(Object.entries(a).filter(([k, v]) => v !== 0));
+        const filterNonZero = (a: Record<string, number>) => Object.fromEntries(Object.entries(a).filter(([, v]) => v !== 0));
         const attackerShips = this.createShips(filterNonZero(aFreq), this.aShipDesigns);
         const defenderShips = this.createShips(filterNonZero(dFreq), this.dShipDesigns);
         const missileAttacks = this.joinRecordAndSortByKey(
@@ -150,8 +151,8 @@ export class BattleEngine {
         Object.keys(ships).forEach( (shipName, i) => {
             const ship = ships[shipName][0].props;
             const initiative = ship.initiative + (team == TEAM.DEFENDER ? 0.5 : 0) + i * 0.001;
-            const hasMissileAttack = ship.flux_missile + ship.plasma_missile != 0;
-            const hasCannonAttack = ship.ion_cannon + ship.plasma_cannon + ship.soliton_cannon + ship.antimatter_cannon != 0;
+            const hasMissileAttack = ship.fluxMissile + ship.plasmaMissile != 0;
+            const hasCannonAttack = ship.ionCannon + ship.plasmaCannon + ship.solitonCannon + ship.antimatterCannon != 0;
             if ( (attack == AttackType.MISSILE && hasMissileAttack) || (attack == AttackType.CANNON && hasCannonAttack)) {
                 orderToShips[initiative] = orderToShips[initiative] || {team, attack, ships:[]};
                 const shipsForInit = ships[shipName];
@@ -163,17 +164,19 @@ export class BattleEngine {
     }
 
     calculateAttack(attack: AttackType, ship: Ship, size: number): Attack[]{
-        const { computers, flux_missile, plasma_missile, ion_cannon, plasma_cannon, soliton_cannon, antimatter_cannon } = ship.props;
+        const { computers, fluxMissile, plasmaMissile, solitonMissile, antimatterMissile, ionCannon, plasmaCannon, solitonCannon, antimatterCannon } = ship.props;
         let attacks: Attack[] = []
         if (attack == AttackType.MISSILE) {
-            attacks = attacks.concat(this.createAttacks(computers, flux_missile * size, 1));
-            attacks = attacks.concat(this.createAttacks(computers, plasma_missile * size, 2));
+            attacks = attacks.concat(this.createAttacks(computers, fluxMissile * size, 1));
+            attacks = attacks.concat(this.createAttacks(computers, plasmaMissile * size, 2));
+            attacks = attacks.concat(this.createAttacks(computers, solitonMissile * size, 3));
+            attacks = attacks.concat(this.createAttacks(computers, antimatterMissile * size, 4));
         }
         if (attack == AttackType.CANNON) {
-            attacks = attacks.concat(this.createAttacks(computers, ion_cannon * size, 1));
-            attacks = attacks.concat(this.createAttacks(computers, plasma_cannon * size, 2));
-            attacks = attacks.concat(this.createAttacks(computers, soliton_cannon * size, 3));
-            attacks = attacks.concat(this.createAttacks(computers, antimatter_cannon * size, 4));
+            attacks = attacks.concat(this.createAttacks(computers, ionCannon * size, 1));
+            attacks = attacks.concat(this.createAttacks(computers, plasmaCannon * size, 2));
+            attacks = attacks.concat(this.createAttacks(computers, solitonCannon * size, 3));
+            attacks = attacks.concat(this.createAttacks(computers, antimatterCannon * size, 4));
         }
         return attacks
     }

@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import './ShipUpgradeForm.css';
-import {Ship, ShipBuilder, ShipProps} from "../ShipBuilder";
+import {Ship, ShipProps} from "../ShipBuilder";
 import FactionForm, {Faction} from "./FactionForm";
 import {toTitle} from "../Formatter";
 import './FactionManagement.css';
 import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
 
 function toShipData(props: Record<string, number>): ShipProps {
-    const shipDataKeys = ['initiative', 'computers', 'shields', 'hull', 'ion_cannon', 'plasma_cannon', 'soliton_cannon', 'antimatter_cannon', 'flux_missile', 'plasma_missile']
+    const shipDataKeys = ['initiative', 'computers', 'shields', 'hull', 'ionCannon', 'plasmaCannon', 'solitonCannon', 'antimatterCannon', 'fluxMissile', 'plasmaMissile', "solitonMissile", "antimatterMissile"]
     const shipDataKeysAsMap = shipDataKeys.reduce((map, key) => {
         map[key] = 0;
         return map;
@@ -19,10 +19,10 @@ function createFaction(name: string): Faction {
     return {
         name: name,
         ships: {
-        interceptor: {name: 'Interceptor', props: toShipData({initiative: 3, 'ion_cannon': 1})},
-        cruiser: {name: 'Cruiser', props: toShipData({initiative: 2, computers: 1, hull: 1, 'ion_cannon': 1})},
-        dreadnought: {name: 'Dreadnought', props: toShipData({initiative: 1, computers: 1, hull: 2, 'ion_cannon': 2})},
-        starbase: {name: 'Starbase', props: toShipData({initiative: 4, computers: 1, hull: 2, 'ion_cannon': 1})},
+        interceptor: {name: 'Interceptor', props: toShipData({initiative: 3, 'ionCannon': 1})},
+        cruiser: {name: 'Cruiser', props: toShipData({initiative: 2, computers: 1, hull: 1, 'ionCannon': 1})},
+        dreadnought: {name: 'Dreadnought', props: toShipData({initiative: 1, computers: 1, hull: 2, 'ionCannon': 2})},
+        starbase: {name: 'Starbase', props: toShipData({initiative: 4, computers: 1, hull: 2, 'ionCannon': 1})},
     } as Record<string, Ship>
     }
 }
@@ -79,19 +79,19 @@ function FactionManagement() {
                     <button onClick={handleCreateFaction}>Create</button>
                 </div>
                 <div className="existing-factions">
-                    {namesManager.get().map((factionName, index) => (
-                        <div key={index} className="faction-wrapper">
+                    {namesManager.get().map((factionName, i) => (
+                        <div key={i} className="faction-wrapper">
                             <div className="faction-name">{factionManager.get(factionName).name}</div>
-                            <button className="faction-button" onClick={() => handleEditFaction(index)}>Edit</button>
-                            <button className="faction-button" onClick={() => handleDeleteFaction(index)}>Delete</button>
-                            {Object.keys(factionManager.get(factionName).ships).map((shipName, index) => {
+                            <button className="faction-button" onClick={() => handleEditFaction(i)}>Edit</button>
+                            <button className="faction-button" onClick={() => handleDeleteFaction(i)}>Delete</button>
+                            {Object.keys(factionManager.get(factionName).ships).map((shipName, ii) => {
                                 const ship = factionManager.get(factionName).ships[shipName];
-                                return <div key={index} className="faction-ship">
+                                return <div key={ii} className="faction-ship">
                                     <div className="ship-name">{ship.name}</div>
-                                    {Object.keys(ship.props).map((propName, index) => {
+                                    {Object.keys(ship.props).map((propName, iii) => {
                                         const propValue: number = {...ship.props}[propName] || 0;
                                         if (propValue !== 0) {
-                                            return <div key={index} className="faction-ship-prop">
+                                            return <div key={iii} className="faction-ship-prop">
                                                 <div className="faction-ship-prop-name">{toTitle(propName)}:</div><div className="faction-ship-prop-value">{propValue}</div>
                                             </div>
                                         }

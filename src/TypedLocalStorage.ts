@@ -20,11 +20,12 @@ export class TypedLocalStorage<S> implements TypedStorage<S> {
 
     get(name: string): S {
         let state;
-        if (localStorage.getItem(name) === null) {
+        const item = localStorage.getItem(name);
+        if (item === null) {
             state = this.initialState;
         } else {
             try {
-                state = JSON.parse(localStorage.getItem(name)!)
+                state = JSON.parse(item)
             } catch (e) {
                 state = this.initialState
             }
@@ -43,6 +44,7 @@ export class TypedLocalStorage<S> implements TypedStorage<S> {
 
 export class TypedNamedLocalStorage<S> implements TypedNamedStorage<S> {
     private readonly store: TypedLocalStorage<S>;
+
     private readonly name: string;
 
     constructor(initialState: S, name: string) {

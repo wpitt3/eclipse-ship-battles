@@ -9,17 +9,20 @@ export interface ShipProps {
     computers: number;
     shields: number;
     hull: number;
-    ion_cannon: number;
-    plasma_cannon: number;
-    soliton_cannon: number;
-    antimatter_cannon: number;
-    flux_missile: number;
-    plasma_missile: number;
+    ionCannon: number;
+    plasmaCannon: number;
+    solitonCannon: number;
+    antimatterCannon: number;
+    fluxMissile: number;
+    plasmaMissile: number;
+    solitonMissile: number;
+    antimatterMissile: number;
 }
 
 export class ShipBuilder {
     private name: string;
-    private props: ShipProps;
+
+    readonly props: ShipProps;
 
     constructor() {
         this.name = '';
@@ -28,12 +31,14 @@ export class ShipBuilder {
             computers: 0,
             shields: 0,
             hull: 0,
-            ion_cannon: 0,
-            plasma_cannon: 0,
-            soliton_cannon: 0,
-            antimatter_cannon: 0,
-            flux_missile: 0,
-            plasma_missile: 0,
+            ionCannon: 0,
+            plasmaCannon: 0,
+            solitonCannon: 0,
+            antimatterCannon: 0,
+            fluxMissile: 0,
+            plasmaMissile: 0,
+            solitonMissile: 0,
+            antimatterMissile: 0,
         };
     }
 
@@ -60,6 +65,7 @@ export class ShipBuilder {
     static dreadnought(): ShipBuilder {
         return new ShipBuilder().withName("dreadnought").withInitiative(1).withIonCannon(1)
     }
+
     static starbase(): ShipBuilder {
         return new ShipBuilder().withName("starbase").withInitiative(4).withIonCannon(1).withComputers(1).withHull(2)
     }
@@ -90,32 +96,42 @@ export class ShipBuilder {
     }
 
     withIonCannon(ionCannon: number): ShipBuilder {
-        this.props.ion_cannon = ionCannon;
+        this.props.ionCannon = ionCannon;
         return this;
     }
 
     withPlasmaCannon(plasmaCannon: number): ShipBuilder {
-        this.props.plasma_cannon = plasmaCannon;
+        this.props.plasmaCannon = plasmaCannon;
         return this;
     }
 
     withSolitonCannon(solitonCannon: number): ShipBuilder {
-        this.props.soliton_cannon = solitonCannon;
+        this.props.solitonCannon = solitonCannon;
         return this;
     }
 
     withAntimatterCannon(antimatterCannon: number): ShipBuilder {
-        this.props.antimatter_cannon = antimatterCannon;
+        this.props.antimatterCannon = antimatterCannon;
         return this;
     }
 
     withFluxMissile(fluxMissile: number): ShipBuilder {
-        this.props.flux_missile = fluxMissile;
+        this.props.fluxMissile = fluxMissile;
         return this;
     }
 
     withPlasmaMissile(plasmaMissile: number): ShipBuilder {
-        this.props.plasma_missile = plasmaMissile;
+        this.props.plasmaMissile = plasmaMissile;
+        return this;
+    }
+
+    withSolitonMissile(solitonMissile: number): ShipBuilder {
+        this.props.solitonMissile = solitonMissile;
+        return this;
+    }
+
+    withAntimatterMissile(antimatterMissile: number): ShipBuilder {
+        this.props.antimatterMissile = antimatterMissile;
         return this;
     }
 

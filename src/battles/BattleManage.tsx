@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Ship, ShipBuilder, ShipProps} from "../ShipBuilder";
-import {toTitle} from "../Formatter";
+import React, {useState} from 'react';
+import {Ship} from "../ShipBuilder";
 import './BattleManage.css';
 import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
 import {Faction} from "../management/FactionForm";

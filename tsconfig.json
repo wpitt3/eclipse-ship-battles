@@ -7,6 +7,7 @@
       "esnext"
     ],
     "allowJs": true,
+    "baseUrl": "./",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,6 +22,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-  ]
+    "src",
+//    "include": ["./**/*.ts", "./**/*.js", "./.*.js"]
+  ],
+  "exclude": ["node_modules", "dist"]
 }

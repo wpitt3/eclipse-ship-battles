@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-function Nav( {page, setPage}: {
+function Nav( {setPage}: {
     setPage: (page:string) => void;
     page: string,
 }) {
