@@ -2,16 +2,12 @@ import {Ship, ShipBuilder} from "../ShipBuilder";
 import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
 import {Faction} from "./FactionForm";
 
-
-
-
-
 export class FactionManager {
     private readonly factionManager: TypedLocalStorage<Faction>;
 
     private readonly namesManager: TypedNamedLocalStorage<Array<string>>;
 
-    readonly NPCs: Record<string, Faction> = {
+    private readonly NPCs: Record<string, Faction> = {
         'NPCs': { name: "NPCs", ships: {ancient: ShipBuilder.ancient().build(), guardian: ShipBuilder.guardian().build(), gcds: ShipBuilder.gcds().build()}} as Faction,
         'Advanced NPCs': { name: "Advanced NPCs", ships: {ancient: ShipBuilder.ancient2().build(), guardian: ShipBuilder.guardian2().build(), gcds: ShipBuilder.gcds2().build()}} as Faction
     }
@@ -21,14 +17,18 @@ export class FactionManager {
         this.namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
     }
 
-    create(name: string) {
+    create(name: string): void {
         const newFaction = this.createFaction(name)
         this.factionManager.set(name, newFaction);
         this.namesManager.set([...this.namesManager.get(), name]);
     }
 
-    isEditable(name: string) {
+    isEditable(name: string): boolean {
         return !Object.keys(this.NPCs).includes(name);
+    }
+
+    defendingOnlyFactions(): Array<string> {
+        return Object.keys(this.NPCs);
     }
 
     get(name: string): Faction {
@@ -46,7 +46,7 @@ export class FactionManager {
         return this.namesManager.get().includes(name);
     }
 
-    remove(name: string) {
+    remove(name: string): void {
         const factionNames = [...this.namesManager.get()];
         const index = factionNames.indexOf(name);
         if (index !== -1) {
@@ -57,11 +57,11 @@ export class FactionManager {
         }
     }
 
-    set(name: string, faction: Faction) {
+    set(name: string, faction: Faction): void {
         this.factionManager.set(name, faction);
     }
 
-    setShips(name: string, ships: Record<string, Ship>) {
+    setShips(name: string, ships: Record<string, Ship>): void {
         const faction = this.factionManager.get(name);
         faction.ships = ships;
         this.factionManager.set(name, faction);

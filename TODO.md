@@ -6,10 +6,9 @@ react component based styles
 run battle engine async
 
 ShipBuilding/management
- - include guardians and blah
  - ideal ship to fight opponent
- - Research cost of ship
  - alternative builder ( with ship parts )
+ - Research cost of ship
 
 battleEngine
  - damage target engine

@@ -8,8 +8,7 @@ import {FactionManager} from "../management/FactionManager";
 
 function BattleManage() {
     const factionManager = new FactionManager();
-    // const namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
-    const shipsToFreq = (a: Record<string, Ship>) => Object.fromEntries(Object.keys(a).map((x) => { return [x, 0]})) as Record<string, number>
+    const shipsToFreq = (shipNames: Array<string>) => Object.fromEntries(shipNames.map((name) => { return [name, 0]})) as Record<string, number>
     const [attackerName, setAttackerName] = useState<string>('');
     const [defenderName, setDefenderName] = useState<string>('');
     const [attackerShips, setAttackerShips] = useState<Record<string, number>>({});
@@ -18,12 +17,12 @@ function BattleManage() {
 
     const setAttacker = (name: string) => {
         setAttackerName(name);
-        setAttackerShips(shipsToFreq(factionManager.get(name).ships))
+        setAttackerShips(shipsToFreq(Object.keys(factionManager.get(name).ships).filter((shipName) => shipName !== 'starbase')))
     };
 
     const setDefender = (name: string) => {
         setDefenderName(name);
-        setDefenderShips(shipsToFreq(factionManager.get(name).ships));
+        setDefenderShips(shipsToFreq(Object.keys(factionManager.get(name).ships)));
     };
 
     const performBattle = () => {
@@ -41,7 +40,7 @@ function BattleManage() {
         setWinRate(wins/battles);
     };
 
-    const attackerNames = factionManager.getNames().filter((name) => name !== defenderName);
+    const attackerNames = factionManager.getNames().filter((name) => name !== defenderName && !factionManager.defendingOnlyFactions().includes(name));
     const defenderNames = factionManager.getNames().filter((name) => name !== attackerName);
 
     const shipNameToMax = { interceptor: 8, cruiser: 4, dreadnought:2, starbase: 4 } as Record<string, number>;
