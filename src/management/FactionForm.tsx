@@ -22,9 +22,11 @@ function FactionForm({saveFaction, faction, propsToDisplayName}: FactionParams) 
     };
 
     return (
-        <div>
-            <h1>{faction.name}</h1>
-            <button onClick={() => saveFaction(newFaction)} >Save</button>
+        <div className="faction-upgrade">
+            <div className="faction-upgrade-title">
+                <h1>{faction.name}</h1>
+                <button onClick={() => saveFaction(newFaction)} >Save</button>
+            </div>
             <div className="faction-upgrade-form">
                 {Object.keys(faction.ships).map((shipName, index) => (
                     <ItemUpdater

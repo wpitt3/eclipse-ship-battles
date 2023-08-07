@@ -1,3 +1,26 @@
+.create-faction {
+    padding: 0 0 15px 10px;
+}
+
+.create-faction input {
+    margin: 0 10px 0 0;
+}
+
+.faction-upgrade-title {
+    display: flex;
+    width: 100%;
+    /*background: #A8C5FF;*/
+}
+
+.faction-upgrade-title h1 {
+    max-width: 300px;
+}
+.faction-upgrade-title button {
+    width: 50px;
+    height: 30px;
+    margin: 25px;
+}
+
 .existing-factions{
     display: block;
 }
@@ -6,6 +29,10 @@
     width: 400px;
     margin: 5px;
     display: inline-block;
+}
+
+.view-factions h2 {
+    padding-left: 10px;
 }
 
 .faction-header {

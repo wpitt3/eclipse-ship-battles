@@ -1,0 +1,17 @@
+.navbar {
+    background: #5885AF;
+    width: 100%;
+    height: 30px;
+}
+
+.navbar button {
+    border: none;
+    background: #5885AF;
+    height: 30px;
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.navbar button:hover {
+    background: #48759F;
+}
