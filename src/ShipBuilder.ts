@@ -13,7 +13,7 @@ export interface ShipProps {
     plasmaCannon: number;
     solitonCannon: number;
     antimatterCannon: number;
-    fluxMissile: number;
+    ionMissile: number;
     plasmaMissile: number;
     solitonMissile: number;
     antimatterMissile: number;
@@ -35,7 +35,7 @@ export class ShipBuilder {
             plasmaCannon: 0,
             solitonCannon: 0,
             antimatterCannon: 0,
-            fluxMissile: 0,
+            ionMissile: 0,
             plasmaMissile: 0,
             solitonMissile: 0,
             antimatterMissile: 0,
@@ -67,7 +67,7 @@ export class ShipBuilder {
     }
 
     static gcds2(): ShipBuilder {
-        return new ShipBuilder().withName("gcds").withInitiative(2).withAntimatterCannon(1).withFluxMissile(4).withComputers(2).withHull(3)
+        return new ShipBuilder().withName("gcds").withInitiative(2).withAntimatterCannon(1).withIonMissile(4).withComputers(2).withHull(3)
     }
 
     static interceptor(): ShipBuilder {
@@ -131,8 +131,8 @@ export class ShipBuilder {
         return this;
     }
 
-    withFluxMissile(fluxMissile: number): ShipBuilder {
-        this.props.fluxMissile = fluxMissile;
+    withIonMissile(ionMissile: number): ShipBuilder {
+        this.props.ionMissile = ionMissile;
         return this;
     }
 

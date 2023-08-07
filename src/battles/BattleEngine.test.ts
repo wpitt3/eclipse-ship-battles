@@ -84,9 +84,9 @@ describe('BattleEngine', () => {
         });
 
         it('ships should only appear in appropriate attack lists', () => {
-            const missileInterceptor = ShipBuilder.interceptor().withIonCannon(0).withFluxMissile(1).build();
+            const missileInterceptor = ShipBuilder.interceptor().withIonCannon(0).withIonMissile(1).build();
             const cruiser = ShipBuilder.cruiser().build();
-            const missileAndCannonCruiser = ShipBuilder.cruiser().withFluxMissile(1).build();
+            const missileAndCannonCruiser = ShipBuilder.cruiser().withIonMissile(1).build();
 
             const attackerShipDesigns: Record<string, Ship> = {interceptor: missileInterceptor, cruiser};
             const defenderShipDesigns: Record<string, Ship> = {cruiser: missileAndCannonCruiser};
@@ -192,7 +192,7 @@ describe('BattleEngine', () => {
         });
 
         it('interceptor with missile attacks', () => {
-            const interceptor = ShipBuilder.interceptor().withFluxMissile(1).withPlasmaMissile(1).build();
+            const interceptor = ShipBuilder.interceptor().withIonMissile(1).withPlasmaMissile(1).build();
             const battleEngine = new BattleEngine({}, {});
             battleEngine.rollDie = () => 6;
 
