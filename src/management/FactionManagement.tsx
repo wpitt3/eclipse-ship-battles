@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import './ShipUpgradeForm.css';
 import {Ship} from "../ShipBuilder";
 import FactionForm from "./FactionForm";
 import {toTitle} from "../Formatter";
@@ -92,7 +91,7 @@ function FactionManagement() {
                     )}
                 </div>
             </div>}
-            {editing === '' || <FactionForm saveFaction={saveFaction} faction={factionManager.get(editing)}/>}
+            {editing === '' || <FactionForm saveFaction={saveFaction} faction={factionManager.get(editing)} propsToDisplayName={shipPropsToDisplayName}/>}
         </div>
     )
 }

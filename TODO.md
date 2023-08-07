@@ -1,7 +1,6 @@
 Todo.md
 
 github workflows?
-use ItemUpdater for both
 react component based styles
 run battle engine async
 

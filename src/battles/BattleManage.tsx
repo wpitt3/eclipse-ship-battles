@@ -4,6 +4,7 @@ import Dropdown from "../components/Dropdown";
 import {ItemUpdater} from "../components/StatContainer";
 import {BattleEngine} from "./BattleEngine";
 import {FactionManager} from "../management/FactionManager";
+import {toTitle} from "../Formatter";
 
 function BattleManage() {
     const factionManager = new FactionManager();
@@ -55,9 +56,9 @@ function BattleManage() {
             <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'arr'} dropdownId={'def'} />
             { !attackerName || !defenderName || <div className="ship-selector">
 
-                <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
-                <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
-                <button onClick={() => performBattle()} >Battle</button>
+                <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
+                <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
+                <button onClick={() => performBattle()}>Battle</button>
                 <br/>
                 <br/>
                 <div className='winrate'>Winrate: {asPercentage(winRate) + "%"}</div>

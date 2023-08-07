@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import './ShipUpgradeForm.css';
-import ShipUpgradeForm from "./ShipUpgradeForm";
 import {Ship, ShipProps} from "../ShipBuilder";
 import {ItemUpdater} from "../components/StatContainer";
+import {toTitle} from "../Formatter";
 
 export interface Faction {
     name: string,
@@ -12,16 +11,15 @@ export interface Faction {
 interface FactionParams {
     saveFaction: (ship: Record<string, Ship>) => void;
     faction: Faction;
+    propsToDisplayName: Record<string, string>;
 }
 
-function FactionForm({saveFaction, faction}: FactionParams) {
+function FactionForm({saveFaction, faction, propsToDisplayName}: FactionParams) {
     const [newFaction, setFaction] = useState(faction.ships);
 
-    const saveShip = (shipName: string, ship: ShipProps) => {
-        setFaction({ ...newFaction, [shipName]: {name: newFaction[shipName]?.name || '', props: ship }});
+    const saveShip = (shipName: string, props: Record<string, number>) => {
+        setFaction({ ...newFaction, [shipName]: {name: newFaction[shipName]?.name || '', props: props as unknown as ShipProps }});
     };
-
-    // newFaction[shipName] || newFaction.interceptor
 
     return (
         <div>
@@ -29,8 +27,13 @@ function FactionForm({saveFaction, faction}: FactionParams) {
             <button onClick={() => saveFaction(newFaction)} >Save</button>
             <div className="faction-upgrade-form">
                 {Object.keys(faction.ships).map((shipName, index) => (
-                    // <ItemUpdater key={index} item={{name: '', props:{x: 1}}} updateItem={(ship) => saveShip(shipName, ship)} max={(x)=> 10} min={(x)=> 10} />
-                    <ShipUpgradeForm key={index} saveShip={(ship) => saveShip(shipName, ship)} initShip={newFaction[shipName] || newFaction.interceptor} />
+                    <ItemUpdater
+                        key={index}
+                        item={{name: toTitle(shipName), props:{...(newFaction[shipName].props)}}}
+                        updateItem={(ship) => saveShip(shipName, ship)}
+                        labelName={(x) => toTitle(propsToDisplayName[x] || x)}
+                        max={(x) => x === 'shields' ? 0 : 10}
+                        min={(x) => x === 'shields' ? -10 : 0} />
                 ))}
             </div>
         </div>
