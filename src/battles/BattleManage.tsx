@@ -49,27 +49,22 @@ function BattleManage() {
     const shipNameToMax = { interceptor: 8, cruiser: 4, dreadnought:2, starbase: 4 } as Record<string, number>;
 
     return (
-        <div className="battle-wrapper">
-            <br/>
-            <br/>
-            <Dropdown label={'Attacker: '} options={attackerNames} onSelect={setAttacker} className={'arr'} dropdownId={'att'} />
-            <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'arr'} dropdownId={'def'} />
-            { !attackerName || !defenderName || <div className="ship-selector">
-
-                <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
-                <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
-                <button onClick={() => performBattle()}>Battle</button>
-                <br/>
-                <br/>
-                <div className='winrate'>Winrate: {asPercentage(winRate) + "%"}</div>
-                <div className='remainingShips'>
-                    <br/>
-                    <div>Ships: </div>
-                    { remainingShips.map(([x, y], i) =>
-                        <div key={i}> {"Remaining   " + x + "   " + asPercentage(y) + "%"} </div>
-                    )}
+        <div className="ship-battle-wrapper">
+            <Dropdown label={'Attacker: '} options={attackerNames} onSelect={setAttacker} className={'attacker-select'} dropdownId={'att'} />
+            <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'defender-select'} dropdownId={'def'} />
+            { !attackerName || !defenderName || <div className="ship-battler">
+                <div className="ship-selector">
+                    <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
+                    <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
                 </div>
-            </div>
+                    <button className="battle-button" onClick={() => performBattle()}>Battle</button>
+                    <div className='result'>
+                        <div key={-1} className='result-header'><div className='result-title'>Winrate</div><div className='result-value'>{asPercentage(winRate) + "%"}</div></div>
+                        { remainingShips.map(([x, y], i) =>
+                            <div key={i} className='result-row'><div className='result-title'>{"Ships " + x}</div><div className='result-value'>{asPercentage(y) + "%"}</div></div>
+                        )}
+                    </div>
+                </div>
             }
         </div>
     )

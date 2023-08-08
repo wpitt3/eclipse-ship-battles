@@ -1,0 +1,50 @@
+
+.ship-battle-wrapper .attacker-select {
+    float: left;
+    margin: 20px 20px;
+}
+
+.ship-battle-wrapper .defender-select {
+    float: left;
+    margin: 20px;
+}
+
+.update-form {
+    margin: 0 5px;
+}
+
+.battle-button {
+    padding: 10px 10px;
+    margin: 20px 30px;
+}
+
+.ship-selector {
+    width: 100%;
+    display: flex;
+}
+
+.result {
+    margin-left: 10px;
+    width: 200px;
+
+}
+
+.result-header {
+    display: flex;
+    border-bottom: 1px solid #282c34;
+}
+
+.result-row {
+    display: flex;
+}
+
+.result-title {
+    margin-right: 10px;
+    width: 100px;
+    text-align: left;
+}
+
+.result-value {
+    width: 100px;
+    text-align: right;
+}
