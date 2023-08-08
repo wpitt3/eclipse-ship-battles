@@ -35,12 +35,14 @@ interface ItemUpdaterProps {
     labelName: (attribute: string) => string;
     min: (attribute: string) => number;
     max: (attribute: string) => number;
+    onChange?: () => void;
 }
 
-export function ItemUpdater({ updateItem, item, labelName, min, max }: ItemUpdaterProps) {
+export function ItemUpdater({ updateItem, item, labelName, min, max, onChange = () => {} }: ItemUpdaterProps) {
     const props = item.props;
     const handleStatChange = (statName: string, value: number) => {
-        updateItem({...props, [statName]: ({...props}[statName] || 0) + value})
+        updateItem({...props, [statName]: ({...props}[statName] || 0) + value});
+        onChange();
     };
     return (
         <div className="update-form">

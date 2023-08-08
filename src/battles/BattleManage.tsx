@@ -16,14 +16,21 @@ function BattleManage() {
     const [winRate, setWinRate] = useState<number>(0);
     const [remainingShips, setRemainingShips] = useState<[string, number][]>([]);
 
+    const resetWins = () => {
+        setWinRate(0);
+        setRemainingShips([])
+    }
+
     const setAttacker = (name: string) => {
         setAttackerName(name);
-        setAttackerShips(shipsToFreq(Object.keys(factionManager.get(name).ships).filter((shipName) => shipName !== 'starbase')))
+        setAttackerShips(shipsToFreq(Object.keys(factionManager.get(name).ships).filter((shipName) => shipName !== 'starbase')));
+        resetWins();
     };
 
     const setDefender = (name: string) => {
         setDefenderName(name);
         setDefenderShips(shipsToFreq(Object.keys(factionManager.get(name).ships)));
+        resetWins();
     };
 
     const asPercentage = (score: number) => {
@@ -33,7 +40,7 @@ function BattleManage() {
     const performBattle = () => {
         //async this
         const battleEngine = new BattleEngine(factionManager.get(attackerName).ships, factionManager.get(defenderName).ships);
-        const battles = 1000;
+        const battles = 10;
         const results = battleEngine.battles(attackerShips, defenderShips, battles);
         const winningBattles = Object.fromEntries(Object.entries(results)
             .filter(([key]) => parseInt(key) > 0)
@@ -45,8 +52,9 @@ function BattleManage() {
 
     const attackerNames = factionManager.getNames().filter((name) => name !== defenderName && !factionManager.defendingOnlyFactions().includes(name));
     const defenderNames = factionManager.getNames().filter((name) => name !== attackerName);
-
     const shipNameToMax = { interceptor: 8, cruiser: 4, dreadnought:2, starbase: 4 } as Record<string, number>;
+    const attackingShipCount = Object.values(attackerShips).reduce((sum, value) => sum + value, 0);
+    const defendingShipCount = Object.values(defenderShips).reduce((sum, value) => sum + value, 0);
 
     return (
         <div className="ship-battle-wrapper">
@@ -54,16 +62,18 @@ function BattleManage() {
             <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'defender-select'} dropdownId={'def'} />
             { !attackerName || !defenderName || <div className="ship-battler">
                 <div className="ship-selector">
-                    <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
-                    <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} ></ItemUpdater>
+                    <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
+                    <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
                 </div>
-                    <button className="battle-button" onClick={() => performBattle()}>Battle</button>
-                    <div className='result'>
-                        <div key={-1} className='result-header'><div className='result-title'>Winrate</div><div className='result-value'>{asPercentage(winRate) + "%"}</div></div>
-                        { remainingShips.map(([x, y], i) =>
-                            <div key={i} className='result-row'><div className='result-title'>{"Ships " + x}</div><div className='result-value'>{asPercentage(y) + "%"}</div></div>
-                        )}
-                    </div>
+                    { !attackingShipCount || !defendingShipCount || <div>
+                        <button className="battle-button" onClick={() => performBattle()}>Battle</button>
+                        <div className='result'>
+                            <div key={-1} className='result-header'><div className='result-title'>Winrate</div><div className='result-value'>{asPercentage(winRate) + "%"}</div></div>
+                            { remainingShips.map(([x, y], i) =>
+                                <div key={i} className='result-row'><div className='result-title'>{"Ships " + x}</div><div className='result-value'>{asPercentage(y) + "%"}</div></div>
+                            )}
+                        </div>
+                    </div>}
                 </div>
             }
         </div>
