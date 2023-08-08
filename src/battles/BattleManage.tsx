@@ -40,7 +40,7 @@ function BattleManage() {
     const performBattle = () => {
         //async this
         const battleEngine = new BattleEngine(factionManager.get(attackerName).ships, factionManager.get(defenderName).ships);
-        const battles = 10;
+        const battles = 10000;
         const results = battleEngine.battles(attackerShips, defenderShips, battles);
         const winningBattles = Object.fromEntries(Object.entries(results)
             .filter(([key]) => parseInt(key) > 0)
