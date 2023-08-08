@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/eclipse-ship-battles/static/css/main.a2b7c2f1.css",
+    "main.js": "/eclipse-ship-battles/static/js/main.a45fe305.js",
+    "index.html": "/eclipse-ship-battles/index.html",
+    "main.a2b7c2f1.css.map": "/eclipse-ship-battles/static/css/main.a2b7c2f1.css.map",
+    "main.a45fe305.js.map": "/eclipse-ship-battles/static/js/main.a45fe305.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a2b7c2f1.css",
+    "static/js/main.a45fe305.js"
+  ]
+}
