@@ -6,14 +6,24 @@ import {BattleEngine} from "./BattleEngine";
 import {FactionManager} from "../management/FactionManager";
 import {toTitle} from "../Formatter";
 import {ExistingFaction} from "../management/ExistingFaction";
+import {TypedNamedLocalStorage} from "../TypedLocalStorage";
+import {Faction} from "../management/FactionForm";
+
+function shipsToFreq(faction: Faction, isAttacking: boolean): Record<string, number> {
+    let shipNames = Object.keys(faction.ships);
+    if (isAttacking) {
+        shipNames = shipNames.filter((shipName) => shipName !== 'starbase')
+    }
+    return Object.fromEntries(shipNames.map((name) => { return [name, 0]}))
+}
 
 function BattleManage() {
     const factionManager = new FactionManager();
-    const shipsToFreq = (shipNames: Array<string>) => Object.fromEntries(shipNames.map((name) => { return [name, 0]})) as Record<string, number>
-    const [attackerName, setAttackerName] = useState<string>('');
-    const [defenderName, setDefenderName] = useState<string>('');
-    const [attackerShips, setAttackerShips] = useState<Record<string, number>>({});
-    const [defenderShips, setDefenderShips] = useState<Record<string, number>>({});
+    const attackerName = new TypedNamedLocalStorage<string>('', 'attacker')
+    const defenderName = new TypedNamedLocalStorage<string>('', 'defender')
+
+    const [attackerShips, setAttackerShips] = useState<Record<string, number>>(!!attackerName.get() ? shipsToFreq(factionManager.get(attackerName.get()), true) : {});
+    const [defenderShips, setDefenderShips] = useState<Record<string, number>>(!!defenderName.get() ? shipsToFreq(factionManager.get(defenderName.get()), false) : {});
     const [winRate, setWinRate] = useState<number>(0);
     const [remainingShips, setRemainingShips] = useState<[string, number][]>([]);
 
@@ -23,14 +33,14 @@ function BattleManage() {
     }
 
     const setAttacker = (name: string) => {
-        setAttackerName(name);
-        setAttackerShips(shipsToFreq(Object.keys(factionManager.get(name).ships).filter((shipName) => shipName !== 'starbase')));
+        attackerName.set(name);
+        setAttackerShips(shipsToFreq(factionManager.get(name), true));
         resetWins();
     };
 
     const setDefender = (name: string) => {
-        setDefenderName(name);
-        setDefenderShips(shipsToFreq(Object.keys(factionManager.get(name).ships)));
+        defenderName.set(name);
+        setDefenderShips(shipsToFreq(factionManager.get(name), false));
         resetWins();
     };
 
@@ -40,7 +50,7 @@ function BattleManage() {
 
     const performBattle = () => {
         //async this
-        const battleEngine = new BattleEngine(factionManager.get(attackerName).ships, factionManager.get(defenderName).ships);
+        const battleEngine = new BattleEngine(factionManager.get(attackerName.get()).ships, factionManager.get(defenderName.get()).ships);
         const battles = 10000;
         const results = battleEngine.battles(attackerShips, defenderShips, battles);
         const winningBattles = Object.fromEntries(Object.entries(results)
@@ -51,8 +61,8 @@ function BattleManage() {
         setRemainingShips(Object.entries(winningBattles).sort().reverse())
     };
 
-    const attackerNames = factionManager.getNames().filter((name) => name !== defenderName && !factionManager.defendingOnlyFactions().includes(name));
-    const defenderNames = factionManager.getNames().filter((name) => name !== attackerName);
+    const attackerNames = factionManager.getNames().filter((name) => name !== defenderName.get() && !factionManager.defendingOnlyFactions().includes(name));
+    const defenderNames = factionManager.getNames().filter((name) => name !== attackerName.get());
     const shipNameToMax = { interceptor: 8, cruiser: 4, dreadnought:2, starbase: 4 } as Record<string, number>;
     const attackingShipCount = Object.values(attackerShips).reduce((sum, value) => sum + value, 0);
     const defendingShipCount = Object.values(defenderShips).reduce((sum, value) => sum + value, 0);
@@ -60,25 +70,25 @@ function BattleManage() {
     return (
         <div className="ship-battle-wrapper">
             <div className="battle-faction-selection">
-                <Dropdown label={'Attacker: '} options={attackerNames} onSelect={setAttacker} className={'attacker-select'} dropdownId={'att'} />
-                <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'defender-select'} dropdownId={'def'} />
+                <Dropdown label={'Attacker: '} options={attackerNames} onSelect={setAttacker} className={'attacker-select'} dropdownId={'att'} defaultValue={attackerName.get()}/>
+                <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'defender-select'} dropdownId={'def'} defaultValue={defenderName.get()}/>
             </div>
-            { !attackerName || !defenderName || <div className="ship-battler">
+            { !attackerName.get() || !defenderName.get() || <div className="ship-battler">
                 <div>
                     <ExistingFaction
                         key={0}
-                        faction={factionManager.get(attackerName)}
+                        faction={factionManager.get(attackerName.get())}
                         editable={false}
                     />
                     <ExistingFaction
                         key={1}
-                        faction={factionManager.get(defenderName)}
+                        faction={factionManager.get(defenderName.get())}
                         editable={false}
                     />
                 </div>
                 <div className="ship-selector">
-                    <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
-                    <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
+                    <ItemUpdater item={{name: attackerName.get(), props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
+                    <ItemUpdater item={{name: defenderName.get(), props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
                 </div>
                     { !attackingShipCount || !defendingShipCount || <div>
                         <button className="battle-button" onClick={() => performBattle()}>Battle</button>

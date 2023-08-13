@@ -6,10 +6,11 @@ interface DropdownProps {
     label: string;
     options: string[];
     onSelect: (selectedOption: string) => void;
+    defaultValue?: string;
 }
 
-function Dropdown({ options, onSelect, dropdownId, className, label }: DropdownProps) {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+function Dropdown({ options, onSelect, dropdownId, className, label, defaultValue }: DropdownProps) {
+    const [selectedOption, setSelectedOption] = useState<string>(defaultValue || '');
 
     const handleSelectOption = (option: string) => {
         setSelectedOption(option);
@@ -21,7 +22,7 @@ function Dropdown({ options, onSelect, dropdownId, className, label }: DropdownP
             <label htmlFor="dropdown">{label}</label>
             <select
                 id={dropdownId}
-                value={selectedOption || ''}
+                value={selectedOption}
                 onChange={(e) => handleSelectOption(e.target.value)}
             >
                 <option value="">-</option>
