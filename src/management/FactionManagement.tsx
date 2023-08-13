@@ -3,7 +3,7 @@ import {Ship} from "../ShipBuilder";
 import FactionForm from "./FactionForm";
 import './FactionManagement.css';
 import {FactionManager} from "./FactionManager";
-import {ExistingFaction} from "./ExistingFaction";
+import {FactionStats} from "./FactionStats";
 
 function FactionManagement() {
     const [name, setName] = useState('');
@@ -54,7 +54,7 @@ function FactionManagement() {
                     { factionManager.getNames().map((factionName, i) => {
                         const faction = factionManager.get(factionName);
                         return (
-                            <ExistingFaction
+                            <FactionStats
                             key={i}
                             faction={faction}
                             editable={factionManager.isEditable(faction.name)}

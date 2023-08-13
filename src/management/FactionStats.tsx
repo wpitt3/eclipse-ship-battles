@@ -10,7 +10,7 @@ interface FactionParams {
     deleteFunction?: (value: string) => void;
 }
 
-export function ExistingFaction({faction, editable, editFunction, deleteFunction}: FactionParams) {
+export function FactionStats({faction, editable, editFunction, deleteFunction}: FactionParams) {
     return (<div className="faction-wrapper">
             <div className="faction-header">
                 <div className="faction-name">{faction.name}</div>
