@@ -1,6 +1,5 @@
 Todo.md
 
-github workflows?
 react component based styles
 run battle engine async
 
@@ -10,7 +9,5 @@ ShipBuilding/management
  - Research cost of ship
 
 battleEngine
- - damage target engine
- - return remaining ships
- - add a run x times
- - withdraws 
+ - improve attack targeting
+ - withdraws (modify remaining)

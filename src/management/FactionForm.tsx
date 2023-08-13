@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Ship, ShipProps} from "../ShipBuilder";
+import {Ship, ShipProps, shipPropsToDisplayName} from "../ShipBuilder";
 import {ItemUpdater} from "../components/StatContainer";
 import {toTitle} from "../Formatter";
 
@@ -11,10 +11,9 @@ export interface Faction {
 interface FactionParams {
     saveFaction: (ship: Record<string, Ship>) => void;
     faction: Faction;
-    propsToDisplayName: Record<string, string>;
 }
 
-function FactionForm({saveFaction, faction, propsToDisplayName}: FactionParams) {
+function FactionForm({saveFaction, faction}: FactionParams) {
     const [newFaction, setFaction] = useState(faction.ships);
 
     const saveShip = (shipName: string, props: Record<string, number>) => {
@@ -33,7 +32,7 @@ function FactionForm({saveFaction, faction, propsToDisplayName}: FactionParams) 
                         key={index}
                         item={{name: toTitle(shipName), props:{...(newFaction[shipName].props)}}}
                         updateItem={(ship) => saveShip(shipName, ship)}
-                        labelName={(x) => toTitle(propsToDisplayName[x] || x)}
+                        labelName={(x) => toTitle(shipPropsToDisplayName[x] || x)}
                         max={(x) => x === 'shields' ? 0 : 10}
                         min={(x) => x === 'shields' ? -10 : 0} />
                 ))}

@@ -14,6 +14,7 @@
 
 .faction-upgrade-title h1 {
     max-width: 300px;
+    margin-left: 10px;
 }
 .faction-upgrade-title button {
     width: 50px;

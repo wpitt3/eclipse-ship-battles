@@ -1,4 +1,9 @@
 
+.battle-faction-selection {
+    display: flex;
+    width: 100%;
+}
+
 .ship-battle-wrapper .attacker-select {
     float: left;
     margin: 20px 20px;
@@ -9,16 +14,13 @@
     margin: 20px;
 }
 
-.update-form {
-    margin: 0 0px;
-}
-
 .battle-button {
     padding: 10px 10px;
     margin: 20px 30px;
 }
 
 .ship-selector {
+    padding-top: 20px;
     width: 100%;
     display: flex;
 }
@@ -26,7 +28,6 @@
 .result {
     margin-left: 10px;
     width: 200px;
-
 }
 
 .result-header {

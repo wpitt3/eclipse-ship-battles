@@ -2,8 +2,9 @@
 .update-form {
     display: inline-block;
     float: left;
-    width: 203px;
-    border: 1px solid #282c34;
+    width: 195px;
+    margin: 5px;
+    /*border: 1px solid #282c34;*/
     background: #5885AF;
 }
 
@@ -41,7 +42,7 @@ button {
 
 .stat-row .stat-value {
     position: absolute;
-    margin-left: 137px;
+    margin-left: 132px;
     margin-top: 3px;
     width: 40px;
     text-align: center;
@@ -49,6 +50,6 @@ button {
 
 .stat-row .plus-button {
     position: absolute;
-    margin-left: 174px;
+    margin-left: 168px;
     margin-top: 3px;
 }

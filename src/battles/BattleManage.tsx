@@ -5,6 +5,7 @@ import {ItemUpdater} from "../components/StatContainer";
 import {BattleEngine} from "./BattleEngine";
 import {FactionManager} from "../management/FactionManager";
 import {toTitle} from "../Formatter";
+import {ExistingFaction} from "../management/ExistingFaction";
 
 function BattleManage() {
     const factionManager = new FactionManager();
@@ -58,9 +59,23 @@ function BattleManage() {
 
     return (
         <div className="ship-battle-wrapper">
-            <Dropdown label={'Attacker: '} options={attackerNames} onSelect={setAttacker} className={'attacker-select'} dropdownId={'att'} />
-            <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'defender-select'} dropdownId={'def'} />
+            <div className="battle-faction-selection">
+                <Dropdown label={'Attacker: '} options={attackerNames} onSelect={setAttacker} className={'attacker-select'} dropdownId={'att'} />
+                <Dropdown label={'Defender: '} options={defenderNames} onSelect={setDefender} className={'defender-select'} dropdownId={'def'} />
+            </div>
             { !attackerName || !defenderName || <div className="ship-battler">
+                <div>
+                    <ExistingFaction
+                        key={0}
+                        faction={factionManager.get(attackerName)}
+                        editable={false}
+                    />
+                    <ExistingFaction
+                        key={1}
+                        faction={factionManager.get(defenderName)}
+                        editable={false}
+                    />
+                </div>
                 <div className="ship-selector">
                     <ItemUpdater item={{name: attackerName, props:attackerShips}} updateItem={setAttackerShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>
                     <ItemUpdater item={{name: defenderName, props:defenderShips}} updateItem={setDefenderShips} labelName={(x) => toTitle(x)} max={(name) => shipNameToMax[name] || 4 } min={()=> 0} onChange={resetWins}></ItemUpdater>

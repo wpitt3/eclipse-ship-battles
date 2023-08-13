@@ -1,4 +1,19 @@
 
+export const shipPropsToDisplayName: Record<string, string> = {
+    initiative: 'Init',
+    computers: 'Comps',
+    shields: 'Shields',
+    hull: 'Hull',
+    ionCannon: 'Ion C',
+    plasmaCannon: 'Plasma C',
+    solitonCannon: 'Soli C',
+    antimatterCannon: 'AntiM C',
+    ionMissile: 'Ion M',
+    plasmaMissile: 'Plasma M',
+    solitonMissile: 'Soli C',
+    antimatterMissile: 'AntiM C',
+}
+
 export interface Ship {
     name: string,
     props: ShipProps,
