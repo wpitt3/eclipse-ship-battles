@@ -33,6 +33,10 @@ function FactionManagement() {
         setEditing('')
     };
 
+    const cancel = () => {
+        setEditing('')
+    };
+
     return (
         <div className="factions-wrapper">
             {editing !== '' || <div className="view-factions">
@@ -60,7 +64,7 @@ function FactionManagement() {
                     })}
                 </div>
             </div>}
-            {editing === '' || <FactionForm saveFaction={saveFaction} faction={factionManager.get(editing)} />}
+            {editing === '' || <FactionForm saveFaction={saveFaction} cancel={cancel} faction={factionManager.get(editing)} />}
         </div>
     )
 }

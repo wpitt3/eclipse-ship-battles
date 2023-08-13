@@ -10,10 +10,11 @@ export interface Faction {
 
 interface FactionParams {
     saveFaction: (ship: Record<string, Ship>) => void;
+    cancel: () => void;
     faction: Faction;
 }
 
-function FactionForm({saveFaction, faction}: FactionParams) {
+function FactionForm({saveFaction, cancel, faction}: FactionParams) {
     const [newFaction, setFaction] = useState(faction.ships);
 
     const saveShip = (shipName: string, props: Record<string, number>) => {
@@ -25,6 +26,7 @@ function FactionForm({saveFaction, faction}: FactionParams) {
             <div className="faction-upgrade-title">
                 <h1>{faction.name}</h1>
                 <button onClick={() => saveFaction(newFaction)} >Save</button>
+                <button onClick={() => cancel()} >Cancel</button>
             </div>
             <div className="faction-upgrade-form">
                 {Object.keys(faction.ships).map((shipName, index) => (

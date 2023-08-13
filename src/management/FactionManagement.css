@@ -17,9 +17,9 @@
     margin-left: 10px;
 }
 .faction-upgrade-title button {
-    width: 50px;
     height: 30px;
     margin: 25px;
+    margin-right: 0px;
 }
 
 .existing-factions{
