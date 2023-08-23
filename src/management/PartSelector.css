@@ -12,7 +12,7 @@
     height: 60px;
     margin: 1px;
     float: left;
-    background: #EEE;
+    background: #38658F;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -26,121 +26,151 @@
     float: left;
 }
 
-.part-selector-category-missiles {
-    transform: rotate(90deg);
-}
-
-.part-selector-part .part-value {
+.part-selector-block img {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    display: block;
     float: left;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 16px 0 0 8px;
 }
 
-.part-selector-part i {
+.part-block {
+    width: 60px;
+    height: 60px;
+    margin: 1px;
     float: left;
-    font-size: 30px;
-    margin: 14px 0 0 0;
+    background: #38658F;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    color: white;
 }
 
-.part-selector-double-part .part-value {
-    font-size: 17px;
-    font-weight: bold;
-    margin: 17px 0 0 2px;
+.part-block-unique {
+    background: #3e3e3e;
 }
 
-.part-selector-double-part i {
-    font-size: 19px;
-    margin: 18px 0 0 -1px;
-}
-
-.part-selector-part .part-selector-initiative {
+.part-block .part-block-initiative {
     float: right;
     display: block;
-    margin: -2px 0 0 0;
-    width: 60px;
-    height: 0;
+    margin: 0 -4px 0 0;
+    width: 20px;
+    height: 0px;
 }
 
-.part-selector-part .part-selector-initiative i {
+.part-block .part-block-initiative img {
+    z-index: 9;
+    position: relative;
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: -3px 0px -7px 0px;
+}
+
+.part-block .part-block-energy {
     float: right;
-    font-size: 20px;
-    margin: 0 -3px 0 -5px;
-}
-
-.part-selector-missiles {
-    display: flex;
-    height: 0;
-    margin: -5px 0 0 30px;
-}
-.part-selector-missiles i {
-    transform: rotate(90deg);
-    font-size: 14px;
-
-}
-
-.part-selector-part .part-selector-energy {
-    float: left;
     display: block;
     margin: 0;
     width: 60px;
     height: 0;
 }
 
-.part-selector-part .part-selector-energy div {
+.part-block .part-block-energy div {
     font-size: 14px;
-    margin: -1px 2px 0 0;
+    margin: 44px 2px 0 0;
     float: right;
 }
 
-.part-selector-part .part-selector-energy i {
-    font-size: 16px;
-    margin: -1px -5px 0 0;
+.part-block .part-block-energy img {
+    z-index: 9;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    margin: 34px -9px 0 0;
     float: right;
 }
 
-.part-selector-part-cannon {
-    width: 44px;
-    height: 44px;
-    margin: 8px 0 -8px 8px;
+
+.part-block-missiles {
+    height: 0;
+    margin: 0 0 8px 0;
 }
 
-.part-selector-part-cannon i {
-    font-size: 14px;
+.part-block .part-block-missiles img {
+    width: 30px;
+    height: 30px;
+    margin: 0 0 0 13px;
+    float: none;
 }
 
-.part-selector-part-cannon-1 {
-    background: #FFFF00;
+.part-block-component {
+
 }
 
-.part-selector-part-cannon-1 i {
-    margin: 15px 0 0 15px;
-}
-
-.part-selector-part-cannon-2 {
-    background: #FFBB00;
-}
-
-.part-selector-part-cannon-2 i {
-    margin: 15px 0 0 5px;
-}
-
-.part-selector-part-cannon-3 {
-    background: #7777FF;
-}
-
-.part-selector-part-cannon-3 i {
+.part-block-components-1 div img {
+    width: 50px;
+    height: 50px;
     margin: 5px 0 0 5px;
 }
 
-.part-selector-part-cannon-3 .cannon-icon-2 {
-    margin: 5px 0 0 14px;
+.part-block-components-1 .part-block-with-score div {
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 16px 0 0 5px;
+    max-width: 18px;
 }
 
-.part-selector-part-cannon-4 {
-    background: #FF5555;
+.part-block-components-1 .part-block-with-score img {
+    width: 30px;
+    height: 30px;
+    margin: 14px 0 11px 2px;
 }
 
-.part-selector-part-cannon-4 i {
-    margin: 5px 0 0 5px;
+.part-block-components-1 .part-block-missiles img {
+    margin: -5px 0 0 13px;
 }
+
+.part-block-components-2 div img {
+    width: 25px;
+    height: 25px;
+    margin: 17px 0 0 2px;
+    float: left;
+}
+
+.part-block-components-2 .part-block-with-score div  {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 19px 0 0 0px;
+    float: left;
+}
+
+.part-block-components-2 .part-block-with-score img  {
+    width: 20px;
+    height: 20px;
+    margin: 20px 0 0 -1px;
+    float: left;
+}
+
+.part-block-components-3 .part-block-component img {
+    width: 25px;
+    height: 25px;
+    float: left;
+    margin: 2px 3px 1px 2px;
+}
+
+.part-block-components-3 .part-block-missiles {
+    height: 25px;
+    float: left;
+    margin: 0;
+}
+
+.part-block-components-3 .part-block-missiles img {
+    margin: 0;
+}
+
+
+
+
+
