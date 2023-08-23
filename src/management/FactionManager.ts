@@ -1,6 +1,20 @@
-import {Ship, ShipBuilder} from "../ShipBuilder";
+import {Ship, ShipBuilder, SHIPTYPE} from "../ShipBuilder";
 import {TypedLocalStorage, TypedNamedLocalStorage} from "../TypedLocalStorage";
 import {Faction} from "./FactionForm";
+
+const components = {
+    [SHIPTYPE.Interceptor]: [9, 19, 0, 5],
+    [SHIPTYPE.Cruiser]: [13, 19, 0, 9, 1, 5],
+    [SHIPTYPE.Dreadnought]: [13, 19, 19, 0, 9, 1, 1, 5],
+    [SHIPTYPE.Starbase]: [13, 0, 19, 1, 1]
+}
+
+const baseStats = {
+    [SHIPTYPE.Interceptor]: {initiative: 2, energy: 0},
+    [SHIPTYPE.Cruiser]: {initiative: 1, energy: 0},
+    [SHIPTYPE.Dreadnought]: {initiative: 0, energy: 0},
+    [SHIPTYPE.Starbase]: {initiative: 4, energy: 3}
+}
 
 export class FactionManager {
     private readonly factionManager: TypedLocalStorage<Faction>;
@@ -8,12 +22,12 @@ export class FactionManager {
     private readonly namesManager: TypedNamedLocalStorage<Array<string>>;
 
     private readonly NPCs: Record<string, Faction> = {
-        'NPCs': { name: "NPCs", ships: {ancient: ShipBuilder.ancient().build(), guardian: ShipBuilder.guardian().build(), gcds: ShipBuilder.gcds().build()}} as Faction,
-        'Advanced NPCs': { name: "Advanced NPCs", ships: {ancient: ShipBuilder.ancient2().build(), guardian: ShipBuilder.guardian2().build(), gcds: ShipBuilder.gcds2().build()}} as Faction
+        'NPCs': { name: "NPCs", ships: {ancient: ShipBuilder.ancient().build(), guardian: ShipBuilder.guardian().build(), gcds: ShipBuilder.gcds().build()}, baseStats, components} as Faction,
+        'Advanced NPCs': { name: "Advanced NPCs", ships: {ancient: ShipBuilder.ancient2().build(), guardian: ShipBuilder.guardian2().build(), gcds: ShipBuilder.gcds2().build()}, baseStats, components} as Faction
     }
 
     constructor() {
-        this.factionManager = new TypedLocalStorage<Faction>({name: '', ships: {}})
+        this.factionManager = new TypedLocalStorage<Faction>({name: '', ships: {}, baseStats, components})
         this.namesManager = new TypedNamedLocalStorage<Array<string>>([], 'factionNames')
     }
 
@@ -61,12 +75,6 @@ export class FactionManager {
         this.factionManager.set(name, faction);
     }
 
-    setShips(name: string, ships: Record<string, Ship>): void {
-        const faction = this.factionManager.get(name);
-        faction.ships = ships;
-        this.factionManager.set(name, faction);
-    }
-
     private createFaction(name: string): Faction {
         return {
             name: name,
@@ -75,7 +83,9 @@ export class FactionManager {
                 cruiser: ShipBuilder.cruiser().build(),
                 dreadnought: ShipBuilder.dreadnought().build(),
                 starbase: ShipBuilder.starbase().build(),
-            } as Record<string, Ship>
+            } as Record<string, Ship>,
+            components,
+            baseStats
         }
     }
 }

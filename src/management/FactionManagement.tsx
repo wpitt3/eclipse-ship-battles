@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Ship} from "../ShipBuilder";
+import {Ship, SHIPTYPE} from "../ShipBuilder";
 import FactionForm from "./FactionForm";
 import './FactionManagement.css';
 import {FactionManager} from "./FactionManager";
 import {FactionStats} from "./FactionStats";
+import {BaseStats} from "./VisualFactionBuilder";
 
 function FactionManagement() {
     const [name, setName] = useState('');
@@ -28,8 +29,8 @@ function FactionManagement() {
         setUnused(!unused);
     };
 
-    const saveFaction = (ships: Record<string, Ship>) => {
-        factionManager.setShips(editing, ships);
+    const saveFaction = (ships: Record<string, Ship>, components: Record<SHIPTYPE, number[]>, baseStats: Record<SHIPTYPE, BaseStats>) => {
+        factionManager.set(editing, {name: editing, ships, components, baseStats});
         setEditing('')
     };
 

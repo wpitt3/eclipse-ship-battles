@@ -1,8 +1,13 @@
 
+.ship-editor-wrapper {
+    width: 100%;
+    float: left;
+}
+
 .ship-wrapper {
     float: left;
     display: grid;
-    margin: 20px;
+    margin: 10px;
     grid-auto-rows: 60px;
     gap: 1px;
     width: 186px;

@@ -1,5 +1,5 @@
 
-const HULLS = "hulls";
+const HULLS = "hull";
 const DRIVES = "drives";
 const ENERGY = "energy";
 const COMPUTERS = "computers";
@@ -9,7 +9,7 @@ const MISSILES = "missiles";
 const MORE = "more";
 
 export enum PartSection {
-    hulls = "hulls",
+    hull = "hull",
     drives = "drives",
     energy = "energy",
     computers = "computers",
@@ -19,7 +19,6 @@ export enum PartSection {
     more = "more",
 }
 
-import init from '../icons/init.png';
 import energy from '../icons/energy.png';
 import hull from '../icons/hull.png';
 import drive from '../icons/hex.png';
@@ -74,10 +73,10 @@ export interface Part {
 
 export const partSectionToParts: Record<PartSection, Array<Part>> = {
     [HULLS]: [
-        {id: 1, components: [{type: PartSection.hulls, score: 1}]},
-        {id: 2, components: [{type: PartSection.hulls, score: 2}]},
-        {id: 3, components: [{type: PartSection.hulls, score: 3}], energyCost: 2},
-        {id: 4, components: [{type: PartSection.computers, score: 1}, {type: PartSection.hulls, score: 1}]},
+        {id: 1, components: [{type: PartSection.hull, score: 1}]},
+        {id: 2, components: [{type: PartSection.hull, score: 2}]},
+        {id: 3, components: [{type: PartSection.hull, score: 3}], energyCost: 2},
+        {id: 4, components: [{type: PartSection.computers, score: 1}, {type: PartSection.hull, score: 1}]},
     ],
     [DRIVES]: [
         {id: 5, components: [{type: PartSection.drives, score: 1}], energyCost: 1, initiative: 1},
@@ -119,7 +118,7 @@ export const partSectionToParts: Record<PartSection, Array<Part>> = {
         {id: 29, components: [{type: PartSection.cannons, score: 2}, {type: PartSection.cannons, score: 2}], energyCost: 3},
         {id: 30, components: [{type: PartSection.drives, score: 2}, {type: PartSection.energy, score: 2}]},
         {id: 31, components: [{type: PartSection.cannons, score: 3}], energyCost: 1},
-        {id: 32, components: [{type: PartSection.hulls, score: 3}]},
+        {id: 32, components: [{type: PartSection.hull, score: 3}]},
         {id: 33, components: [{type: PartSection.missiles, score: 1}, {type: PartSection.missiles, score: 1}, {type: PartSection.missiles, score: 1}]},////
         {id: 34, components: [{type: PartSection.energy, score: 11}]},
         {id: 35, components: [{type: PartSection.computers, score: 2}], initiative: 1},
@@ -128,5 +127,10 @@ export const partSectionToParts: Record<PartSection, Array<Part>> = {
         {id: 38, components: [{type: PartSection.missiles, score: 3}]}
     ]
 }
+
+export const idToPart: Record<number, Part> = Object.entries(partSectionToParts).reduce((acc, [, parts]) => ({
+    ...acc,
+    ...parts.reduce((groupAcc, part) => ({ ...groupAcc, [part.id]: part }), {})
+}),{});
 
 // muon drive

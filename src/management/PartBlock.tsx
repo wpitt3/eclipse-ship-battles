@@ -6,7 +6,7 @@ import energy from '../icons/energy.png';
 
 
 interface Params {
-    onSelected: () => void;
+    onSelected?: () => void;
     part: Part;
     unique: boolean
 }
@@ -15,7 +15,7 @@ function PartBlock({onSelected, part, unique}: Params) {
 
     return (
         <div className={"part-block part-block-components-" + part.components.length + (unique ? " part-block-unique": "")} onClick={onSelected}>
-            {!part.initiative || <div className={"part-block-initiative"}>{[...Array(part.initiative)].map(() => <img src={init} />)}</div>}
+            {!part.initiative || <div className={"part-block-initiative"}>{[...Array(part.initiative)].map((_, i) => <img key={i} src={init} />)}</div>}
             {!part.energyCost || <div className={"part-block-energy"}><div>{part.energyCost}</div><img src={energy} /></div>}
             { part.components[0].type === PartSection.missiles && <div className={"part-block-missiles"}><img src={partSectionToScoreToImage[PartSection.missiles][part.components[0].score]}/></div> }
             {part.components.map((component, ci) => {

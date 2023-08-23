@@ -1,8 +1,9 @@
-import {toTitle} from "../Formatter";
-import React, {useState} from "react";
-import {shipPropsToDisplayName, SHIPTYPE} from "../ShipBuilder";
-import {FactionStats} from "./FactionStats";
+
+import React from "react";
+import {SHIPTYPE} from "../ShipBuilder";
 import "./ShipEditor.css"
+import {idToPart} from "./PartDetails";
+import PartBlock from "./PartBlock";
 
 interface BaseStats {
     initiative: number;
@@ -13,22 +14,17 @@ interface FactionParams {
     shipType: SHIPTYPE;
     shipComponents: number[];
     baseStats: BaseStats;
+    onSelected: (shiptype: SHIPTYPE, index: number) => void;
 }
 
-const shipTypeToSquares: Record<SHIPTYPE, number> = {
-    [SHIPTYPE.Interceptor] : 4,
-    [SHIPTYPE.Cruiser]: 6,
-    [SHIPTYPE.Dreadnought]: 8,
-    [SHIPTYPE.Starbase]: 5,
-}
-
-export function ShipEditor({shipType, shipComponents, baseStats}: FactionParams) {
-    const [components, setComponents] = useState<number[]>(shipComponents);
+export function ShipEditor({shipType, shipComponents, onSelected}: FactionParams) {
 
     return (
         <div className={"ship-wrapper ship-wrapper-" + shipType}>
-            { components.map((value, i) => {
-               return (<div key={i} onClick={() => console.log(i)} className={"component-slot component-slot-" + i} ></div>);
+            { shipComponents.map((value, i) => {
+               return (<div key={i} onClick={() => onSelected(shipType, i)} className={"component-slot component-slot-" + i} >
+                   {value === 0 || <PartBlock key={i} part={idToPart[value]} unique={value > 24}/>}
+               </div>);
             })}
         </div>
     );

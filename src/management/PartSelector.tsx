@@ -5,7 +5,7 @@ import PartBlock from "./PartBlock";
 
 
 interface Params {
-    onSelected: () => number;
+    onSelected: (id: number) => void;
     onCancel: () => void;
 }
 
@@ -24,9 +24,10 @@ function PartSelector({onSelected, onCancel}: Params) {
                     </div>
                 );
             })}
-            { !!section || <div key={partSections.length} className={"part-selector-block" } onClick={() => onCancel()}><i className="material-icons">close</i></div> }
+            { !!section || <div key={partSections.length} className={"part-selector-block" } onClick={() => onSelected(0)}><i className="material-icons">delete</i></div> }
+            { !!section || <div key={partSections.length + 1} className={"part-selector-block" } onClick={() => onCancel()}><i className="material-icons">close</i></div> }
             { !section ||  parts.map((part, i) => {
-                return <PartBlock key={i} onSelected={() => onSelected()} part={part} unique={section === PartSection.more}/>
+                return <PartBlock key={i} onSelected={() => onSelected(part.id)} part={part} unique={section === PartSection.more}/>
             })}
             { !section || <div key={parts.length} className={"part-selector-block" } onClick={() => setSection(undefined)}><i className="material-icons">close</i></div> }
         </div>

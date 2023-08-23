@@ -9,9 +9,11 @@ export const shipPropsToDisplayName: Record<string, string> = {
     solitonCannon: 'Soli C',
     antimatterCannon: 'AntiM C',
     ionMissile: 'Ion M',
-    plasmaMissile: 'Plasma M',
+    plasmaMissile: 'Flux M',
     solitonMissile: 'Soli C',
     antimatterMissile: 'AntiM C',
+    energy: 'Energy',
+    drives: 'Moves'
 }
 
 export enum SHIPTYPE {
@@ -39,6 +41,8 @@ export interface ShipProps {
     plasmaMissile: number;
     solitonMissile: number;
     antimatterMissile: number;
+    energy: number;
+    drives: number;
 }
 
 export class ShipBuilder {
@@ -61,6 +65,8 @@ export class ShipBuilder {
             plasmaMissile: 0,
             solitonMissile: 0,
             antimatterMissile: 0,
+            energy: 0,
+            drives: 0,
         };
     }
 
@@ -93,19 +99,19 @@ export class ShipBuilder {
     }
 
     static interceptor(): ShipBuilder {
-        return new ShipBuilder().withName("interceptor").withInitiative(3).withIonCannon(1)
+        return new ShipBuilder().withName("interceptor").withInitiative(3).withIonCannon(1).withEnergy(1).withDrives(1)
     }
 
     static cruiser(): ShipBuilder {
-        return new ShipBuilder().withName("cruiser").withInitiative(2).withIonCannon(1).withHull(1).withComputers(1)
+        return new ShipBuilder().withName("cruiser").withInitiative(2).withIonCannon(1).withHull(1).withComputers(1).withEnergy(1).withDrives(1)
     }
 
     static dreadnought(): ShipBuilder {
-        return new ShipBuilder().withName("dreadnought").withInitiative(1).withIonCannon(2).withHull(2).withComputers(1)
+        return new ShipBuilder().withName("dreadnought").withInitiative(1).withIonCannon(2).withHull(2).withComputers(1).withDrives(1)
     }
 
     static starbase(): ShipBuilder {
-        return new ShipBuilder().withName("starbase").withInitiative(4).withIonCannon(1).withComputers(1).withHull(2)
+        return new ShipBuilder().withName("starbase").withInitiative(4).withIonCannon(1).withComputers(1).withHull(2).withEnergy(2)
     }
 
     withName(name: string): ShipBuilder {
@@ -170,6 +176,16 @@ export class ShipBuilder {
 
     withAntimatterMissile(antimatterMissile: number): ShipBuilder {
         this.props.antimatterMissile = antimatterMissile;
+        return this;
+    }
+
+    withEnergy(energy: number): ShipBuilder {
+        this.props.energy = energy;
+        return this;
+    }
+
+    withDrives(drives: number): ShipBuilder {
+        this.props.drives = drives;
         return this;
     }
 
