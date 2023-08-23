@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import {Ship, ShipProps, shipPropsToDisplayName} from "../ShipBuilder";
+import React, {useState} from 'react';
+import {Ship, ShipProps, shipPropsToDisplayName, SHIPTYPE} from "../ShipBuilder";
 import {ItemUpdater} from "../components/StatContainer";
 import {toTitle} from "../Formatter";
+import {ShipEditor} from "./ShipEditor";
+import PartSelector from "./PartSelector";
 
 export interface Faction {
     name: string,
@@ -21,6 +23,10 @@ function FactionForm({saveFaction, cancel, faction}: FactionParams) {
         setFaction({ ...newFaction, [shipName]: {name: newFaction[shipName]?.name || '', props: props as unknown as ShipProps }});
     };
 
+
+    const ships = [SHIPTYPE.Interceptor, SHIPTYPE.Cruiser, SHIPTYPE.Dreadnought, SHIPTYPE.Starbase]
+    const components = [[...Array(4)], [...Array(6)], [...Array(8)], [...Array(5)]]
+
     return (
         <div className="faction-upgrade">
             <div className="faction-upgrade-title">
@@ -29,16 +35,21 @@ function FactionForm({saveFaction, cancel, faction}: FactionParams) {
                 <button onClick={() => cancel()} >Cancel</button>
             </div>
             <div className="faction-upgrade-form">
-                {Object.keys(faction.ships).map((shipName, index) => (
-                    <ItemUpdater
-                        key={index}
-                        item={{name: toTitle(shipName), props:{...(newFaction[shipName].props)}}}
-                        updateItem={(ship) => saveShip(shipName, ship)}
-                        labelName={(x) => toTitle(shipPropsToDisplayName[x] || x)}
-                        max={(x) => x === 'shields' ? 0 : 10}
-                        min={(x) => x === 'shields' ? -10 : 0} />
+                {ships.map((shipName, i) => (
+                    <ShipEditor key={i} shipType={shipName} shipComponents={components[i]} baseStats={{initiative: 0, energy: 0}}/>
                 ))}
+
+                {/*{Object.keys(faction.ships).map((shipName, index) => (*/}
+                {/*    <ItemUpdater*/}
+                {/*        key={index}*/}
+                {/*        item={{name: toTitle(shipName), props:{...(newFaction[shipName].props)}}}*/}
+                {/*        updateItem={(ship) => saveShip(shipName, ship)}*/}
+                {/*        labelName={(x) => toTitle(shipPropsToDisplayName[x] || x)}*/}
+                {/*        max={(x) => x === 'shields' ? 0 : 10}*/}
+                {/*        min={(x) => x === 'shields' ? -10 : 0} />*/}
+                {/*))}*/}
             </div>
+            <PartSelector onSelected={() => 0} onCancel={() => 0}/>
         </div>
     );
 }

@@ -14,6 +14,13 @@ export const shipPropsToDisplayName: Record<string, string> = {
     antimatterMissile: 'AntiM C',
 }
 
+export enum SHIPTYPE {
+    Interceptor = "interceptor",
+    Cruiser = "cruiser",
+    Dreadnought = "dreadnought",
+    Starbase = "starbase"
+}
+
 export interface Ship {
     name: string,
     props: ShipProps,

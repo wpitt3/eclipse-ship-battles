@@ -1,0 +1,86 @@
+
+.ship-wrapper {
+    float: left;
+    display: grid;
+    margin: 20px;
+    grid-auto-rows: 60px;
+    gap: 1px;
+    width: 186px;
+    grid-template-columns: repeat(3, 60px);
+}
+
+.component-slot {
+    width: 60px;
+    height: 60px;
+    background: #5885AF;
+    margin:1px;
+    display: block;
+}
+
+.ship-wrapper-interceptor {
+}
+
+.ship-wrapper-interceptor .component-slot-0 {
+    margin-top: 50px
+}
+
+.ship-wrapper-interceptor .component-slot-2 {
+    margin-top: 50px
+}
+
+.ship-wrapper-interceptor .component-slot-3 {
+    margin-left: 62px
+}
+
+.ship-wrapper-cruiser {
+    height: 140px;
+}
+
+.ship-wrapper-cruiser .component-slot-0 {
+    margin-top: 20px
+}
+
+.ship-wrapper-cruiser .component-slot-2 {
+    margin-top: 20px
+}
+
+.ship-wrapper-cruiser .component-slot-3 {
+    margin-top: 20px
+}
+
+.ship-wrapper-cruiser .component-slot-5 {
+    margin-top: 20px
+}
+
+.ship-wrapper-dreadnought {
+    grid-template-columns: repeat(4, 60px);
+    height: 140px;
+    width: 248px;
+}
+
+.ship-wrapper-dreadnought .component-slot-0 {
+    margin-top: 20px
+}
+
+.ship-wrapper-dreadnought .component-slot-3 {
+    margin-top: 20px
+}
+
+.ship-wrapper-dreadnought .component-slot-4 {
+    margin-top: 20px
+}
+
+.ship-wrapper-dreadnought .component-slot-7 {
+    margin-top: 20px
+}
+
+.ship-wrapper-starbase {
+}
+
+.ship-wrapper-starbase .component-slot-1 {
+    margin-top: 30px
+}
+
+.ship-wrapper-starbase .component-slot-4 {
+    margin-left: 62px
+}

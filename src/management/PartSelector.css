@@ -1,0 +1,146 @@
+
+.part-selector-wrapper {
+    width: 100%;
+    height: 100px;
+    display: block;
+    float: left;
+    background: #EE0000;
+}
+
+.part-selector-block {
+    width: 60px;
+    height: 60px;
+    margin: 1px;
+    float: left;
+    background: #EEE;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.part-selector-block i {
+    font-size: 36px;
+    margin: 12px;
+    display: block;
+    float: left;
+}
+
+.part-selector-category-missiles {
+    transform: rotate(90deg);
+}
+
+.part-selector-part .part-value {
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 16px 0 0 8px;
+}
+
+.part-selector-part i {
+    float: left;
+    font-size: 30px;
+    margin: 14px 0 0 0;
+}
+
+.part-selector-double-part .part-value {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 17px 0 0 2px;
+}
+
+.part-selector-double-part i {
+    font-size: 19px;
+    margin: 18px 0 0 -1px;
+}
+
+.part-selector-part .part-selector-initiative {
+    float: right;
+    display: block;
+    margin: -2px 0 0 0;
+    width: 60px;
+    height: 0;
+}
+
+.part-selector-part .part-selector-initiative i {
+    float: right;
+    font-size: 20px;
+    margin: 0 -3px 0 -5px;
+}
+
+.part-selector-missiles {
+    display: flex;
+    height: 0;
+    margin: -5px 0 0 30px;
+}
+.part-selector-missiles i {
+    transform: rotate(90deg);
+    font-size: 14px;
+
+}
+
+.part-selector-part .part-selector-energy {
+    float: left;
+    display: block;
+    margin: 0;
+    width: 60px;
+    height: 0;
+}
+
+.part-selector-part .part-selector-energy div {
+    font-size: 14px;
+    margin: -1px 2px 0 0;
+    float: right;
+}
+
+.part-selector-part .part-selector-energy i {
+    font-size: 16px;
+    margin: -1px -5px 0 0;
+    float: right;
+}
+
+.part-selector-part-cannon {
+    width: 44px;
+    height: 44px;
+    margin: 8px 0 -8px 8px;
+}
+
+.part-selector-part-cannon i {
+    font-size: 14px;
+}
+
+.part-selector-part-cannon-1 {
+    background: #FFFF00;
+}
+
+.part-selector-part-cannon-1 i {
+    margin: 15px 0 0 15px;
+}
+
+.part-selector-part-cannon-2 {
+    background: #FFBB00;
+}
+
+.part-selector-part-cannon-2 i {
+    margin: 15px 0 0 5px;
+}
+
+.part-selector-part-cannon-3 {
+    background: #7777FF;
+}
+
+.part-selector-part-cannon-3 i {
+    margin: 5px 0 0 5px;
+}
+
+.part-selector-part-cannon-3 .cannon-icon-2 {
+    margin: 5px 0 0 14px;
+}
+
+.part-selector-part-cannon-4 {
+    background: #FF5555;
+}
+
+.part-selector-part-cannon-4 i {
+    margin: 5px 0 0 5px;
+}
