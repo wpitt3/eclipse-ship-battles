@@ -1,13 +1,22 @@
 {
   "files": {
-    "main.css": "/eclipse-ship-battles/static/css/main.a2b7c2f1.css",
-    "main.js": "/eclipse-ship-battles/static/js/main.a45fe305.js",
+    "main.css": "/eclipse-ship-battles/static/css/main.28ace13b.css",
+    "main.js": "/eclipse-ship-battles/static/js/main.fa598c8c.js",
+    "static/media/hull.png": "/eclipse-ship-battles/static/media/hull.48b7e9282dd287c80eff.png",
+    "static/media/antimatter.png": "/eclipse-ship-battles/static/media/antimatter.32c1c6cd0a186837e7b1.png",
+    "static/media/soliton.png": "/eclipse-ship-battles/static/media/soliton.7be432d41c3a0bfdd8fe.png",
+    "static/media/shield3.png": "/eclipse-ship-battles/static/media/shield3.5b8698194c05f422f22b.png",
+    "static/media/comp3.png": "/eclipse-ship-battles/static/media/comp3.45a9605c0dbe78e5bbe2.png",
+    "static/media/plasma.png": "/eclipse-ship-battles/static/media/plasma.d8ed2c29b3b40d6974cd.png",
+    "static/media/comp2.png": "/eclipse-ship-battles/static/media/comp2.dc38a228425a1a860d29.png",
+    "static/media/shield2.png": "/eclipse-ship-battles/static/media/shield2.a8f8833b21467c9ca51e.png",
+    "static/media/ion.png": "/eclipse-ship-battles/static/media/ion.ccd464e7de5d07b919b8.png",
     "index.html": "/eclipse-ship-battles/index.html",
-    "main.a2b7c2f1.css.map": "/eclipse-ship-battles/static/css/main.a2b7c2f1.css.map",
-    "main.a45fe305.js.map": "/eclipse-ship-battles/static/js/main.a45fe305.js.map"
+    "main.28ace13b.css.map": "/eclipse-ship-battles/static/css/main.28ace13b.css.map",
+    "main.fa598c8c.js.map": "/eclipse-ship-battles/static/js/main.fa598c8c.js.map"
   },
   "entrypoints": [
-    "static/css/main.a2b7c2f1.css",
-    "static/js/main.a45fe305.js"
+    "static/css/main.28ace13b.css",
+    "static/js/main.fa598c8c.js"
   ]
 }
